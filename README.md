@@ -6,3 +6,5 @@ dotcom's theme project timeline
 |     1| Ui design |
 |     2| Coding    |
 |     3| test      |
+
+Git push
