@@ -1,0 +1,296 @@
+{% assign grid_results = true %}
+<div data-section-id="{{ section.id }}" data-section-type="search-template">
+    <div class="grid">
+        <div class="grid-item">
+            <hr class="hr--clear hr--small">
+                {% if search.performed %}
+                    {% paginate search.results by 100 %}
+                        {% if search.results_count == 0 %}
+                            <h1 class="h2 text-center">{{ 'general.search.no_results_html' | t: terms: search.terms }}</h1>
+                            {% include 'search-bar' %}
+                        {% else %}
+                            <h1 class="h2 text-center">{{ 'general.search.results_for_html' | t: terms: search.terms }}</h1>
+                            {% include 'search-bar' %}
+                            <hr class="hr--clear">
+                                {% if grid_results == false %}
+                                    {% for item in search.results %}
+                                        {% include 'search-result' %}
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="grid-uniform search-result">
+                                        {% unless grid_item_width %}
+                                            {% assign grid_item_width = 'large--one-fifth medium--one-third small--one-half' %}
+                                        {% endunless %}
+                                        {% assign on_sale = false %}
+                                        {% if item.compare_at_price > item.price %}
+                                            {% assign on_sale = true %}
+                                        {% endif %}
+                                        {% assign sold_out = true %}
+                                        {% if item.available %}
+                                            {% assign sold_out = false %}
+                                        {% endif %}
+                                        {%- assign width = '195' -%}
+                                        {%- assign height = '125' -%}
+                                        {% for item in search.results %}
+                                      		{% if item.vendor != cart.attributes.branch %}
+		                                      {% continue %}
+        		                              {% endif %}
+                                                        {% assign var_active = false %}
+                                                        {% for option in item.options %}
+                                                            {% if option == 'Variant:'  or option == 'Sold per:' %}
+                                                                {% assign var_active = true %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if item.variants.size > 0 and var_active == true %}
+                                                            {% for option in item.options %}
+                                                                {% if option == 'Variant:'  or option == 'Sold per:' %}
+                                                                    {% assign index = forloop.index0 %}
+                                                                    {% assign varlist = '' %}
+                                                                    {% assign var = '' %}
+                                                                    {% for variant in item.variants %}
+                                                                        {% capture var %}
+                                                                            {{ variant.options[index] }}
+                                                                        {% endcapture %}
+                                                                        {% unless varlist contains var %}
+                                                                            {%- case section.settings.grid -%}
+                                                                                {%- when '2' -%}
+                                                                                    {%- assign grid_item_width = 'medium--one-half large--one-half' -%}
+                                                                                    {%- assign image_size = '540x600' -%}
+                                                                                    {%- assign width = '540' -%}
+                                                                                    {%- assign height = '600' -%}
+                                                                                {%- when '3' -%}
+                                                                                    {%- assign grid_item_width = 'small--one-half medium--one-third large--one-third' -%}
+                                                                                    {%- assign image_size = '345x550' -%}
+                                                                                    {%- assign width = '345' -%}
+                                                                                    {%- assign height = '550' -%}
+                                                                                {%- when '4' -%}
+                                                                                    {%- assign grid_item_width = 'small--one-half medium--one-quarter large--one-quarter' -%}
+                                                                                    {%- assign image_size = '250x' -%}
+                                                                                    {%- assign width = '250' -%}
+                                                                                    {%- assign height = '225' -%}
+                                                                                {%- when '5' -%}
+                                                                                    {%- assign grid_item_width = 'small--one-half medium--one-fifth large--one-fifth' -%}
+                                                                                    {%- assign image_size = '195x' -%}
+                                                                                    {%- assign width = '195' -%}
+                                                                                    {%- assign height = '125' -%}
+                                                                            {%- endcase -%}
+                                                                            {% comment %}
+                                                                                {% if has_sidebar %}
+                                                                                   {% assign grid_item_width = 'large--one-quarter medium--one-third small--one-half' %}
+                                                                            	{% else %}
+                                                                                   {% assign grid_item_width = 'large--one-fifth medium--one-third small--one-half' %}
+                                                                            	{% endif %}
+                                                                            {% endcomment %}
+                                                                            {% include 'product-card-search-variant', product: item %}
+                                                                            {% capture tempList %}
+                                                                                {{ varlist | append: var | append: " " }}
+                                                                            {% endcapture %}
+                                                                            {% assign varlist = tempList %}
+                                                                        {% endunless %}
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            <div class="grid-item search-result {{ grid_item_width }}{% if on_sale %} on-sale{% endif %}">
+                                                                <a href="{{ item.url }}" class="product-grid-item">
+                                                                    {% if item.object_type == 'product' %}
+                                                                        {% if item.featured_image %}
+                                                                            <div class="product-grid-image">
+                                                                                <div class="product-grid-image--centered">
+                                                                                    {% if item.featured_image %}
+                                                                                        {%- assign image = item.featured_image -%}
+                                                                                        {%- assign max_width = width | plus: 0 -%}
+                                                                                        {%- assign max_height = height | plus: 0 -%}
+                                                                                        {%- include 'image-logic' with width: max_width, height: max_height -%}
+                                                                                        {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                                                                                        <div id="{{ wrapper_id }}" class="lazyload__image-wrapper no-js" style="max-width: {{ max_width }}px">
+                                                                                            <div style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100 }}%;">
+                                                                                                <img class="lazyload no-js" data-src="{{ img_url }}" data-widths="[125, 180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]" data-aspectratio="{{ image.aspect_ratio }}" data-sizes="auto" alt="{{ image.alt | escape }}"></div>
+                                                                                            </div>
+                                                                                            <noscript>
+                                                                                                <img src="{{ image | img_url: '580x' }}" srcset="{{ image | img_url: '580x' }} 1x, {{ image | img_url: '580x', scale: 2 }} 2x" alt="{{ image.alt }}" style="opacity:1;"></noscript>
+                                                                                    {% else %}
+                                                                                                {% capture current %}
+                                                                                                    {% cycle 1, 2, 3, 4 %}
+                                                                                                {% endcapture %}
+                                                                                                <div style="min-height:100%">
+                                                                                                    {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                                                                                                </div>
+                                                                                    {% endif %}
+                                                                                        </div>
+                                                                                    </div>
+                                                                        {% endif %}
+                                                                                <p>{{ item.title }}</p>
+                                                                                <div class="product-item--price">
+                                                                                    <span class="h1 medium--left">
+                                                                                        {% if on_sale and section.settings.product_show_compare_at_price %}
+                                                                                            <span class="visually-hidden">{{ "products.general.sale_price" | t }}
+                                                                                            </span>
+                                                                                        {% else %}
+                                                                                            <span class="visually-hidden">{{ "products.general.regular_price" | t }}
+                                                                                            </span>
+                                                                                        {% endif %}
+                                                                                        {% include 'price' with item.price %}
+                                                                                        {% if on_sale and section.settings.product_show_compare_at_price %}
+                                                                                            <small>
+                                                                                                <s>
+                                                                                                    <span class="visually-hidden">{{ "products.general.regular_price" | t }}
+                                                                                                    </span>
+                                                                                                    {% include 'price' with item.compare_at_price %}
+                                                                                                </s>
+                                                                                            </small>
+                                                                                        {% endif %}
+                                                                                    </span>
+                                                                                    {%- if item.first_available_variant.available and item.first_available_variant.unit_price_measurement -%}
+                                                                                        {% include 'product-unit-price', variant: item.first_available_variant %}
+                                                                                    {%- endif -%}
+                                                                                    {% include 'add-to-cart' %}
+                                                                                </div>
+                                                                                {% if on_sale and section.settings.product_show_saved_amount %}
+                                                                                    <div class="sale-tag medium--right">
+                                                                                        {% assign compare_price = item.compare_at_price %}
+                                                                                        {% assign product_price = item.price %}
+                                                                                        {% include 'price-sale' %}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                    {% else %}
+                                                                                {% assign img_tag = '<' | append: 'img' %}
+                                                                                {% if item.content contains img_tag %}
+                                                                                    {% assign src = item.content | split: 'src="' %}
+                                                                                    {% assign src = src[1] | split: '"' | first %}
+                                                                                    {% if src %}
+                                                                                        {% assign image_src = src | replace: '_small.', '.' | replace: '_compact.', '.' | replace: '_medium.', '.' | replace: '_large.', '.' | replace: '_grande.', '.' %}
+                                                                                    {% endif %}
+                                                                                {% endif %}
+                                                                                {% unless image_src == blank %}
+                                                                                    <div class="product-grid-image">
+                                                                                        <div class="product-grid-image--centered">
+                                                                                            {{ image_src | img_tag }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                {% endunless %}
+                                                                                <p class="h6">{{ item.title }}</p>
+                                                                                <div class="rte">
+                                                                                    {% if item.excerpt.size > 0 %}
+                                                                                        <p>{{ item.excerpt | strip_html | truncatewords: 30 }}</p>
+                                                                                    {% else %}
+                                                                                        <p>{{ item.content | strip_html | truncatewords: 30 }}</p>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                      {% endif %}
+                                                                        </a>
+                                                            </div>
+                                                        {% else %}
+                                                                    <div class="grid-item">
+                                                                        <p>{{ 'collections.general.no_matches' | t }}
+                                                                        </p>
+                                                                    </div>
+                                                                {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if paginate.pages > 1 %}
+                                        <div class="text-center">
+                                            {% include 'pagination-custom' %}
+                                        </div>
+                                    {% endif %}
+                                {% endpaginate %}
+                            {% else %}
+                                {% comment %}
+                                    If search.performed is false, someone either accessed the page without the q parameter, or it was blank.
+                                {% endcomment %}
+                                <h1 class="text-center h2">{{ 'general.search.title' | t }}</h1>
+                                {% include 'search-bar' %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% schema %}
+                {
+                  "name": {
+                    "cs": "Hledat",
+                    "da": "Søg",
+                    "de": "Suchen",
+                    "en": "Search",
+                    "es": "Buscar",
+                    "fi": "Hae",
+                    "fr": "Rechercher",
+                    "hi": "खोजें",
+                    "it": "Cerca",
+                    "ja": "検索",
+                    "ko": "검색",
+                    "nb": "Søk",
+                    "nl": "Zoeken",
+                    "pl": "Szukaj",
+                    "pt-BR": "Pesquisar",
+                    "pt-PT": "Pesquisar",
+                    "sv": "Sök",
+                    "th": "ค้นหา",
+                    "tr": "Ara",
+                    "vi": "Tìm kiếm",
+                    "zh-CN": "搜索",
+                    "zh-TW": "搜尋"
+                  },
+                  "settings": [
+                    {
+                      "type": "checkbox",
+                      "id": "product_show_compare_at_price",
+                      "label": {
+                        "cs": "Zobrazit původní cenu",
+                        "da": "Vis sammenligningspris",
+                        "de": "Vergleichspreis anzeigen",
+                        "en": "Show compare at price",
+                        "es": "Mostrar precio de comparación",
+                        "fi": "Näytä vertailuhinta",
+                        "fr": "Afficher le prix avant réduction",
+                        "hi": "मूल्य पर तुलना दिखाएं",
+                        "it": "Mostra Prezzo di confronto",
+                        "ja": "割引前価格を表示する",
+                        "ko": "비교가 표시",
+                        "nb": "Vis prissammenligning",
+                        "nl": "Vergelijkingsprijs weergeven",
+                        "pl": "Pokaż cenę do porównania",
+                        "pt-BR": "Exibir Comparação de preços",
+                        "pt-PT": "Mostrar preço comparado",
+                        "sv": "Visa ursprungspris",
+                        "th": "แสดงราคาเปรียบเทียบ",
+                        "tr": "Karşılaştırma fiyatını göster",
+                        "vi": "Hiển thị giá gốc",
+                        "zh-CN": "显示原价",
+                        "zh-TW": "顯示售價"
+                      },
+                      "default": false
+                    },
+                    {
+                      "type": "checkbox",
+                      "id": "product_show_saved_amount",
+                      "label": {
+                        "cs": "Zobrazit uloženou částku",
+                        "da": "Vis besparelse",
+                        "de": "Gesparten Betrag anzeigen",
+                        "en": "Show saved amount",
+                        "es": "Mostrar monto ahorrado",
+                        "fi": "Näytä säästetty summa",
+                        "fr": "Afficher le montant économisé",
+                        "hi": "सहेजी गई राशि दिखाएं",
+                        "it": "Mostra importo risparmiato",
+                        "ja": "保存された金額を表示",
+                        "ko": "저장 금액 표시",
+                        "nb": "Vis spart beløp",
+                        "nl": "Bespaard bedrag weergeven",
+                        "pl": "Pokaż zaoszczędzoną kwotę",
+                        "pt-BR": "Exibir valor salvo",
+                        "pt-PT": "Mostrar valor poupado",
+                        "sv": "Visa sparade belopp",
+                        "th": "แสดงจำนวนที่บันทึกไว้",
+                        "tr": "Tasarruf edilen tutarı göster",
+                        "vi": "Hiển thị số tiền đã lưu",
+                        "zh-CN": "显示已保存的金额",
+                        "zh-TW": "顯示省下金額"
+                      },
+                      "default": true
+                    }
+                  ]
+                }
+                {% endschema %}

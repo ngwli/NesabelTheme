@@ -1,0 +1,14 @@
+<hr>
+<p class="h1"> Shop Now </p>
+<div class="cat-content">
+  <div class="cat-wrapper">
+{%- assign categories = 'dairy-eggs,cooking-essentials,beverages,snacks,canned-goods,rice-grains-pasta-noodles,frozen-goods,household,office-and-school,health-and-beauty,baby,general-merchandise,liquor-wine-and-cigarettes,pet-care' | split:"," -%}
+{%- for category in categories -%}
+{%- assign catimg = category | replace: "-","_" | append: ".jpg" -%}
+	<div class="cat-box" id="{{category | replace: " ", "-"}}">
+      <a href="https://nesabel.com/collections/{{category}}/{{cart.attributes.branch | replace: " ", "-"}}" id="cat-link">
+        <img src="{{ catimg | file_img_url: '300x' }}"></a>
+    </div>
+{%- endfor -%}
+  </div>
+</div>

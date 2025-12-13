@@ -1,0 +1,62 @@
+{
+  "sections": {
+    "1642788613ea9e3f09": {
+      "type": "slideshow",
+      "blocks": {
+        "16427886133c21ef7b-0": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/viber_image_2022-05-04_16-24-30-321.jpg",
+            "link": ""
+          }
+        },
+        "0afefe99-49cc-418e-9c8f-c96555f8e775": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/viber_image_2022-11-21_15-45-02-034.jpg",
+            "link": ""
+          }
+        },
+        "0b62125e-0195-4873-8079-3400996922c3": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/viber_image_2022-11-21_15-45-08-060.jpg",
+            "link": ""
+          }
+        },
+        "556a5bd7-4af1-47a4-afb5-fa9dfca23e4e": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/viber_image_2022-11-21_15-45-21-083.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "16427886133c21ef7b-0",
+        "0afefe99-49cc-418e-9c8f-c96555f8e775",
+        "0b62125e-0195-4873-8079-3400996922c3",
+        "556a5bd7-4af1-47a4-afb5-fa9dfca23e4e"
+      ],
+      "settings": {
+        "slider_home_auto": false,
+        "slider_home_rate": "5000"
+      }
+    },
+    "1642788615a56ab08b": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Recommended Products",
+        "home_featured_row": "recommended-products-2",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": true,
+        "product_show_compare_at_price": false
+      }
+    }
+  },
+  "order": [
+    "1642788613ea9e3f09",
+    "1642788615a56ab08b"
+  ]
+}

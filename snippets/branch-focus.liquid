@@ -1,0 +1,167 @@
+<!-- defunct code; branch-focus-snippet is more updated. This template can still be used to focus on certain elements -->
+<!-- custome code by JR Castor of Nesabel, 8/21/21: blackout div on page load if no branch selected -->
+{% if cart.attributes.branch == 'Select Branch' %}
+<style>
+html, body {
+  overflow: hidden;
+}
+body {
+  position: relative;
+}
+  
+@media screen and (max-width: 480px){
+  .focus-branch-picker {
+  	position: fixed;
+    z-index: 100;
+    background-color: black;
+    opacity: 0.6;
+  }
+  
+  .focus-branch-picker.top {
+    position: fixed;
+    height: 185px;
+    width: 100%;
+    top: 0;
+  }
+  
+  .focus-branch-picker.bottom {
+    height: 100%;
+    width: 100%;
+    margin-top: 230px;
+  }
+
+  .focus-text {
+  	position: absolute;
+    width: auto;
+    z-index: 110;
+    color: white;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+  
+}
+  
+@media screen and (min-width: 481px) and (max-width: 768px){
+  .focus-branch-picker {
+  	position: fixed;
+    z-index: 100;
+    background-color: black;
+    opacity: 0.6;
+  }
+  
+  .focus-branch-picker.top {
+    position: fixed;
+    height: 185px;
+    width: 100%;
+    top: 0;
+  }
+  
+  .focus-branch-picker.bottom {
+    height: 100%;
+    width: 100%;
+    margin-top: 276px;
+  }
+  
+  .focus-branch-picker.right {
+  	width: calc(calc(100% - 530px) / 2);
+    height: 91px;
+    right: 0;
+    margin-top: 185px;
+  }
+
+  .focus-branch-picker.left {
+  	width: calc(calc(100% - 530px) / 2);
+    height: 91px;
+    left: 0;
+    margin-top: 185px;
+  }
+  
+  .focus-text {
+  	position: absolute;
+    width: auto;
+    z-index: 110;
+    color: white;
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+  
+}
+  
+@media screen and (min-width: 769px){
+  .focus-branch-picker {
+  	position: fixed;
+    z-index: 10;
+    background-color: black;
+    opacity: 0.6;
+  }  
+    
+	.focus-branch-picker.top {
+      height: 68px;
+      width: 100%;
+      top: 0;
+    }
+	.focus-branch-picker.left {
+      height: 86px;
+      width: 50%;
+      left: 0;
+      margin-top: 68px;
+    }
+
+	.focus-branch-picker.bottom {
+      height: 100%;
+      width: 100%;
+      margin-top: 154px;
+    }
+  
+    .focus-text {
+  	position: absolute;
+    z-index: 11;
+    color: white;
+    top: 100px;
+    right: 53%;
+  }
+}
+@media screen and (min-width: 1061px){
+  	.focus-branch-picker.right {
+      height: 86px;
+      width: calc(calc(100% - 1060px) / 2);
+      right: 0;
+      margin-top: 68px;
+    }
+  
+  	.focus-branch-picker.left {
+      width: calc(calc(100% - 1060px) / 2 + 530);
+    }
+}
+
+  
+</style>
+
+
+<div class="focus-wrapper">
+<div class="focus-branch-picker top">
+
+</div>
+<div class="focus-text-wrapper">
+<div class="focus-branch-picker left">
+  
+</div>
+
+<h2 class="focus-text">Select a branch to start:</h2>
+</div>
+<div class="focus-branch-picker right">
+
+</div>
+
+<div class="focus-branch-picker bottom">
+</div>
+</div>
+{% endif %}

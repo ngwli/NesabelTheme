@@ -1,0 +1,441 @@
+{%- comment -%}Custom code by JR Castor of Nesabel, 8/21/21: blackout div on page load if no branch selected{%- endcomment -%}
+{%- comment -%}Line 3 refers to options that will be inactive{%- endcomment -%}
+{% if cart.attributes.branch == blank or cart.attributes.branch == 'Select Branch' %}
+  <style>
+          html, body {
+          overflow: hidden;
+        }
+        body {
+          position: relative;
+        }
+
+          #mobileNavBar {
+            z-index: 0;
+          }
+
+          .focus-on-picker {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 90;
+          }
+
+          .focus-branch-picker-wrapper {
+            position: fixed;
+            left: 0; right: 0;
+            top: 15%;
+            margin: 0 auto;
+            max-width: 400px;
+            z-index: 100;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+          .focus-header {
+            position: relative;
+            color: black;
+            text-align: center;
+            margin: 2.5%;
+          }
+
+          .focus-body {
+          	position: relative;
+            text-align: center;
+            left: 0; right: 0;
+            margin: 0 auto;
+            padding: 0 30px;
+          }
+
+          .branch-picker-list {
+          	position: relative;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .branch-picker-button {
+          	height: 2em;
+            background-color: #010854;
+            color: white;
+            font-size: 1.25em;
+            margin: 5px 0;
+            border-radius: 10px;
+          }
+
+          .branch-picker-option-value {
+          	top: 50%
+          }
+
+          .wholesale-section {
+          }
+
+          .division-radio-label {
+            display: inline;
+            padding: 0 5px;
+          }
+
+          .division {
+            margin-bottom: 0px;
+            display: flex;
+          }
+
+        .division-wrapper{
+          display: inline-flex;
+        }
+        .division-wrapper .option{
+          background: #fff;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          margin: 0 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          padding: 2px 10px;
+          border: 2px solid lightgrey;
+          transition: all 0.3s ease;
+        }
+        .division-wrapper .option .dot{
+          height: 20px;
+          width: 20px;
+          margin-right: 5px;
+          background: #d9d9d9;
+          border-radius: 50%;
+          position: relative;
+        }
+        .division-wrapper .option .dot::before{
+          position: absolute;
+          content: "";
+          top: 4px;
+          left: 4px;
+          width: 12px;
+          height: 12px;
+          background: #010854;
+          border-radius: 50%;
+          opacity: 0;
+          transform: scale(1.5);
+          transition: all 0.3s ease;
+        }
+
+        #option-1:checked:checked ~ .option-1,
+        #option-2:checked:checked ~ .option-2{
+          border-color: #010854;
+          background: #010854;
+        }
+        #option-1:checked:checked ~ .option-1 .dot,
+        #option-2:checked:checked ~ .option-2 .dot{
+          background: #fff;
+        }
+        #option-1:checked:checked ~ .option-1 .dot::before,
+        #option-2:checked:checked ~ .option-2 .dot::before{
+          opacity: 1;
+          transform: scale(1);
+        }
+        .wrapper .option span{
+          font-size: 20px;
+          color: #808080;
+        }
+        #option-1:checked:checked ~ .option-1 span,
+        #option-2:checked:checked ~ .option-2 span{
+          color: #fff;
+        }
+        .tooltip-parent {
+      position: relative;
+    }
+
+    .tooltip-text {
+      display: none;
+      position: absolute;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      z-index: 200;
+      line-height: 1.4;
+    }
+
+    /* Show on hover (desktop) */
+    .tooltip-parent:hover .tooltip-text {
+      display: block;
+    }
+
+    /* Show on tap (mobile) — JS will toggle 'active' class */
+    .tooltip-text.active {
+      display: block;
+    }
+  </style>
+
+  <div class="focus-on-picker"></div>
+
+  <div class="focus-branch-picker-wrapper">
+    <div class="wholesale-section">
+      <div class="focus-header">
+        <h2>I want to buy:</h2>
+      </div>
+      <div class="focus-body">
+        <div class="division-wrapper">
+          <form class="division">
+            <input type="radio" name="division" id="option-1" checked style="display:none;" value="">
+            <input type="radio" name="division" id="option-2" style="display:none;" value="Wholesale">
+            <label for="option-1" class="option option-1">
+              <div class="dot"></div>
+              <span>Retail</span>
+            </label>
+            <label for="option-2" class="option option-2 tooltip-parent">
+              <div class="dot"></div>
+              <span>Wholesale</span>
+              <span class="tooltip-text"
+                >Only CASH payment is allowed for online Wholesale orders. <br>
+                <br>
+                Customers who want to use CARD payment are recommended to use Retail.</span
+              >
+            </label>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="focus-header">
+      <h2>Where would you like to shop today?</h2>
+    </div>
+    <div class="focus-body">
+      <ul class="branch-picker-list">
+        {% assign branches = 'Nesabel Pateros,Chronos Mart,Nesabel Bustos,Nesabel San Rafael' | split: ',' %}
+        {% assign branch1 = 'Nesabel Pateros' %}
+        {% assign branch1Address = '3B Morcilla St. Brgy. Aguho, Pateros, Metro Manila' %}
+        {% assign branch2 = 'Chronos Mart' %}
+        {% assign branch2Address = '7 Prudence St., Brgy. Sta. Ana, Taguig, Metro Manila' %}
+        {% assign branch3 = 'Nesabel Bustos' %}
+        {% assign branch3Address = '106 General Alejo G. Santos Highway, Bustos, Bulacan' %}
+        {% assign branch4 = 'Nesabel San Rafael' %}
+        {% assign branch4Address = '88 Cruz na Daan, San Rafael, Bulacan' %}
+
+        <button
+          class="branch-picker-button"
+          id="button-{{ branch1 | replace: " ", "-"}}"
+          value="{{ branch1 }}"
+        >
+          {{ branch1 }}
+        </button>
+        <label> Address: {{ branch1Address }} </label>
+
+        <button
+          class="branch-picker-button"
+          id="button-{{ branch2 | replace: " ", "-" }}"
+          value="{{ branch2 }}"
+        >
+          {{ branch2 }}
+        </button>
+        <label> Address: {{ branch2Address }} </label>
+
+        <button
+          class="branch-picker-button"
+          id="button-{{ branch3 | replace: " ", "-"}}"
+          value="{{ branch3 }}"
+        >
+          {{ branch3 }}
+        </button>
+        <label> Address: {{ branch3Address }} </label>
+
+        <button
+          class="branch-picker-button"
+          id="button-{{ branch4 | replace: " ", "-" }}"
+          value="{{ branch4 }}"
+        >
+          {{ branch4 }}
+        </button>
+        <label> Address: {{ branch4Address }} </label>
+      </ul>
+
+      <!-- Can also use pictures maybe? -->
+      <!--
+        Can also put check order status?
+        <div class="order-status-checker">
+        <h3>Check your order status:</h3>
+        <!-- Needs more research
+        </div>
+      -->
+    </div>
+  </div>
+{% endif %}
+
+<script>
+    /* Branch Selector on home page */
+    branchPickerFocus = $('#branch-picker');
+    buttonNesabelPateros = $('#button-Nesabel-Pateros')
+    buttonChronosMart = $('#button-Chronos-Mart')
+    buttonNesabelBustos = $('#button-Nesabel-Bustos')
+    buttonNesabelSanRafael = $('#button-Nesabel-San-Rafael')
+
+    buttonRetail = $('#option-1')
+    buttonWholesale = $('#option-2')
+
+    /* Bind a change event to the buttons */
+    buttonNesabelPateros.on('click', function(){
+
+      /* Get the current value. Some value validation could be added here (but we don't) */
+    // 	var val = $(this).val();
+
+      /* Is the customer buying wholesale? */
+    	var divisionRadio = document.querySelector('input[name="division"]:checked').value;
+        var branch = "";
+
+      /* Add wholesale to branch if customer is buying wholesale */
+        if (divisionRadio != "") {
+          branch = "Nesabel Pateros " + divisionRadio;
+        } else {
+          branch = "Nesabel Pateros";
+        };
+
+      /* Send the value as a cart attribute via the AJAX API */
+      $.ajax({
+        type: "POST",
+        url: '/cart.js',
+        data: {"attributes[branch]": branch}, /* We are using an attribute named "branch" */
+        success: function(d){
+          /*
+          On sucess, reload the page.
+          Warning: If you have scripts on the page that auto trigger the change even the page may reload forever.
+          If you do, be sure to add code to account for that.
+          */
+          /* Edited the above function to bring back to homepage */
+          window.location.href = "/?view=" + branch.toLowerCase().replace(/\s+/g, '')
+        },
+        dataType: 'json'
+      });
+    });
+
+    buttonChronosMart.on('click', function(){
+
+      /* Get the current value. Some value validation could be added here (but we don't) */
+    // 	var val = $(this).val();
+
+      /* Is the customer buying wholesale? */
+    	var divisionRadio = document.querySelector('input[name="division"]:checked').value;
+        var branch = "";
+
+      /* Add wholesale to branch if customer is buying wholesale */
+        if (divisionRadio != "") {
+          branch = "Chronos Mart " + divisionRadio;
+        } else {
+          branch = "Chronos Mart";
+        };
+
+      /* Send the value as a cart attribute via the AJAX API */
+      $.ajax({
+        type: "POST",
+        url: '/cart.js',
+        data: {"attributes[branch]": branch}, /* We are using an attribute named "branch" */
+        success: function(d){
+          /*
+          On sucess, reload the page.
+          Warning: If you have scripts on the page that auto trigger the change even the page may reload forever.
+          If you do, be sure to add code to account for that.
+          */
+          /* Edited the above function to bring back to homepage */
+          window.location.href = "/?view=" + branch.toLowerCase().replace(/\s+/g, '')
+        },
+        dataType: 'json'
+      });
+    });
+
+      /* Bind a change event to the buttons */
+    buttonNesabelBustos.on('click', function(){
+
+      /* Get the current value. Some value validation could be added here (but we don't) */
+    // 	var val = $(this).val();
+
+      /* Is the customer buying wholesale? */
+    	var divisionRadio = document.querySelector('input[name="division"]:checked').value;
+        var branch = "";
+
+      /* Add wholesale to branch if customer is buying wholesale */
+        if (divisionRadio != "") {
+          branch = "Nesabel Bustos " + divisionRadio;
+        } else {
+          branch = "Nesabel Bustos";
+        };
+
+      /* Send the value as a cart attribute via the AJAX API */
+      $.ajax({
+        type: "POST",
+        url: '/cart.js',
+        data: {"attributes[branch]": branch}, /* We are using an attribute named "branch" */
+        success: function(d){
+          /*
+          On sucess, reload the page.
+          Warning: If you have scripts on the page that auto trigger the change even the page may reload forever.
+          If you do, be sure to add code to account for that.
+          */
+          /* Edited the above function to bring back to homepage */
+          window.location.href = "/?view=" + branch.toLowerCase().replace(/\s+/g, '')
+        },
+        dataType: 'json'
+      });
+    });
+
+      /* Bind a change event to the buttons */
+    buttonNesabelSanRafael.on('click', function(){
+
+      /* Get the current value. Some value validation could be added here (but we don't) */
+    // 	var val = $(this).val();
+
+      /* Is the customer buying wholesale? */
+    	var divisionRadio = document.querySelector('input[name="division"]:checked').value;
+        var branch = "";
+
+      /* Add wholesale to branch if customer is buying wholesale */
+        if (divisionRadio != "") {
+          branch = "Nesabel San Rafael " + divisionRadio;
+        } else {
+          branch = "Nesabel San Rafael";
+        };
+
+      /* Send the value as a cart attribute via the AJAX API */
+      $.ajax({
+        type: "POST",
+        url: '/cart.js',
+        data: {"attributes[branch]": branch}, /* We are using an attribute named "branch" */
+        success: function(d){
+          /*
+          On sucess, reload the page.
+          Warning: If you have scripts on the page that auto trigger the change even the page may reload forever.
+          If you do, be sure to add code to account for that.
+          */
+          /* Edited the above function to bring back to homepage */
+          window.location.href = "/?view=" + branch.toLowerCase().replace(/\s+/g, '')
+        },
+        dataType: 'json'
+      });
+    });
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (isTouchDevice) {
+    $('.tooltip-parent').on('click', function(e) {
+      e.preventDefault(); // prevent default radio select behavior
+
+      // Toggle tooltip
+      $('.tooltip-text').removeClass('active'); // close other tooltips
+      $(this).find('.tooltip-text').addClass('active');
+
+      // Allow the radio to still be selected
+      const input = $('#' + $(this).attr('for'));
+      if (input.length) input.prop('checked', true);
+    });
+
+    // Optional: close tooltip if user taps elsewhere
+    $(document).on('click touchstart', function(e) {
+      if (!$(e.target).closest('.tooltip-parent').length) {
+        $('.tooltip-text').removeClass('active');
+      }
+    });
+  }
+</script>
