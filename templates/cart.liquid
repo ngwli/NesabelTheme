@@ -1,0 +1,601 @@
+<style>
+          .highlight-error {
+            color: red;
+          }
+          .tooltip-error {
+          position: absolute;
+          background-color: #a10000;
+          color: white;
+          padding: 6px 10px;
+          border-radius: 4px;
+          font-size: 0.9em;
+          z-index: 999;
+          white-space: nowrap;
+          top: -35px; /* will be adjusted by JS */
+          left: 0;
+          transform: translateX(-10%);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .tooltip-error::after {
+          content: "";
+          position: absolute;
+          bottom: -6px;
+          left: 15px;
+          border-width: 6px;
+          border-style: solid;
+          border-color: #a10000 transparent transparent transparent;
+        }
+        .accordion-container {
+        margin-bottom: 1.5em;
+      }
+
+      .accordion-toggle {
+        background-color: #eee;
+        color: #333;
+        cursor: pointer;
+        padding: 10px 16px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        font-weight: bold;
+        font-size: 1em;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-bottom: 5px;
+      }
+
+      .accordion-toggle:hover {
+        background-color: #ddd;
+      }
+
+      .accordion-content {
+        padding: 0 16px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+      }
+
+      .accordion-container.active .accordion-content {
+        max-height: 1000px;
+        padding-top: 10px;
+      }
+      .tooltip-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip-text {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      position: absolute;
+      z-index: 1;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      white-space: nowrap;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%; /* arrow bottom */
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+
+    .tooltip-wrapper:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    body.ajaxify-modal--visible .accordion-content {
+    max-height: none !important;
+    display: block !important;
+  }
+
+  body.ajaxify-modal--visible .tooltip-error {
+    position: fixed !important; /* or relative to the modal if scoped */
+    z-index: 9999;
+  }
+</style>
+
+<script>
+  $.ajax({
+    type: "POST",
+    url: '/cart.js',
+    data: {"attributes[discount]": "{{customer.tags}}"},
+    success: function(d){
+      console.log('discount added')
+    },
+    dataType: 'json'
+  });
+</script>
+{% if cart.item_count > 0 %}
+  <form action="{{ routes.cart_url }}" method="post" class="cart-form" data-cart-form novalidate>
+    <h1 class="h2">{{ 'cart.general.title' | t }}</h1>
+    <h2 class="h2">
+      You are ordering from: <span style="color: black;">{{ cart.attributes.branch }}</span>
+    </h2>
+    {% if cart.attributes.branch == 'Nesabel Pateros' or cart.attributes.branch == 'Chronos Mart' %}
+      <div style="background-color: #a10000; height: auto; text-align: center; margin: 0 auto 0 auto">
+        <h3 class="h3" style="color: white;">Express Same-Day Delivery now available!</h3>
+      </div>
+    {% endif %}
+    {% if cart.attributes.branch contains 'Wholesale' %}
+      <div style="background-color: #a10000; height: auto; text-align: center; margin: 0 auto 0 auto">
+        <h3 class="h3" style="color: white;">CASH Payments only. Card Payments will not be honored</h3>
+      </div>
+    {% endif %}
+    <div>
+      <a
+        href="
+          {%- case cart.attributes.branch -%}
+          {%- when 'Nesabel Pateros' -%}
+          https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Nesabel_Pateros_Delivery_Rates.png?v=1632457184
+          {%- when 'Nesabel Pateros Wholesale' -%}
+          https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Nesabel_Pateros_Wholesale_Delivery_Rates.png?v=1653613232
+          {%- when 'Nesabel San Rafael' -%}
+          https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Nesabel_San_Rafael_Rates.jpg?v=1632455364
+          {%- when 'Chronos Mart' -%}
+          https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Chronos_updated_delivery.jpg?v=1658734771
+          {%- when 'Nesabel Bustos' -%}
+            https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Bustos_delivery_rates.png?v=1658749890
+          {%- endcase -%}
+        "
+        target="_blank"
+        class="btn"
+        style="margin-bottom: 2px; width: 194.91px"
+      >
+        <img
+          src="{{ 'ShipmentMajor.svg' | asset_url }}"
+          style="height: 1.3em; position: relative; top: 2px;"
+        >
+        Delivery Rates</a
+      >
+      <button
+        class="btn change-branch"
+        id="change-branch-cart"
+        type="button"
+        onclick="
+          console.log('step2');
+          $.ajax({
+          type: 'POST',
+          url: '/cart.js',
+          data: {'attributes[branch]': ''},
+          success: function(d){
+          console.log('step3')
+          window.location.reload()
+          },
+          dataType: 'json'
+          });
+        "
+        style="margin-bottom: 2px"
+      >
+        <img
+          src="{{ 'StoreMajor.svg' | asset_url }}"
+          style="height: 1.3em; position: relative; top: 2px; margin-bottom: 2px;"
+        >
+        Change branch
+      </button>
+    </div>
+    {%- assign branch-checker = 0 -%}
+    {% for item in cart.items %}
+      <div class="cart-row" data-line="{{ forloop.index }}">
+        <div class="grid">
+          <div class="grid-item large--one-half">
+            <div class="grid">
+              <div class="grid-item one-third large--one-quarter">
+                <a href="{{ item.url }}" class="cart-image">
+                  <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+                </a>
+              </div>
+
+              <div class="grid-item two-thirds large--three-quarters">
+                <a href="{{ item.url }}">
+                  {{ item.product.title }}
+                </a>
+                {% unless item.product.has_only_default_variant %}
+                  <br>
+                  <small>{{ item.variant.title }}</small>
+                {% endunless %}
+
+                {% if item.vendor != cart.attributes.branch %}
+                  <p><strong>This item is unavailable in the branch you have selected.</strong></p>
+                {% endif %}
+
+                {% unless item.selling_plan_allocation == null %}
+                  <br>
+                  <small>{{ item.selling_plan_allocation.selling_plan.name }}</small>
+                {% endunless %}
+
+                {% if settings.product_quantity_message
+                  and item.variant.inventory_management
+                  and item.variant.inventory_quantity <= 0
+                  and item.variant.incoming
+                %}
+                  {% assign date = item.variant.next_incoming_date | date: format: 'date' %}
+                  <br>
+                  <small>{{ 'products.product.will_not_ship_until' | t: date: date }}</small>
+                {% endif %}
+
+                {% assign property_size = item.properties | size %}
+                {% if property_size > 0 %}
+                  {% for p in item.properties %}
+                    {% if forloop.first %}<br>{% endif %}
+                    {% assign first_character_in_key = p.first | truncate: 1, '' %}
+                    {% unless p.last == blank or first_character_in_key == '_' %}
+                      <small>{{ p.first }}: </small>
+
+                      {% if p.last contains '/uploads/' %}
+                        <a href="{{ p.last }}"
+                          ><small>{{ p.last | split: '/' | last }}</small></a
+                        >
+                      {% else %}
+                        <small>{{ p.last }}</small>
+                      {% endif %}
+
+                      <br>
+                    {% endunless %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-item large--one-half medium--two-thirds push--medium--one-third cart-pricing">
+            <div class="grid">
+              <div class="grid-item one-third text-right">
+                <input
+                  type="number"
+                  name="updates[]"
+                  id="updates_{{ item.key }}"
+                  data-id="{{ item.key }}"
+                  value="{{ item.quantity }}"
+                  min="0"
+                  data-line="{{ forloop.index }}"
+                >
+              </div>
+
+              <div class="grid-item one-half medium-down--text-left text-right">
+                {%- if item.original_line_price != item.final_line_price -%}
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <small
+                    ><s class="cart-original-price order-discount--cart-price">
+                      {{- item.original_line_price | money -}}
+                    </s></small
+                  >
+                  <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+                  <span class="order-discount order-discount--cart-price">{{ item.final_line_price | money }}</span>
+                {%- else -%}
+                  <span class="cart-original-price order-discount--cart-price">
+                    {{- item.original_line_price | money -}}
+                  </span>
+                {%- endif -%}
+
+                {%- if item.variant.available and item.variant.unit_price_measurement -%}
+                  {% include 'product-unit-price', variant: item, available: item.variant.available %}
+                {%- endif -%}
+
+                {%- if item.line_level_discount_allocations != blank -%}
+                  <ul
+                    class="order-discount order-discount--list order-discount--cart-list order-discount--title"
+                    aria-label="{{ 'customer.order.discount' | t }}"
+                  >
+                    {%- for discount_allocation in item.line_level_discount_allocations -%}
+                      <li class="order-discount__item">
+                        <span class="icon icon-saletag" aria-hidden="true"></span>
+                        {{- discount_allocation.discount_application.title }} (-
+                        {{- discount_allocation.amount | money -}}
+                        )
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+
+              <div class="grid-item one-sixth text-right">
+                <a
+                  href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0"
+                  data-line="{{ forloop.index }}"
+                  class="icon-fallback-text btn-secondary remove"
+                >
+                  <span class="icon icon-x" aria-hidden="true"></span>
+                  <span class="fallback-text">{{ 'cart.general.remove' | t }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%- if item.vendor != cart.attributes.branch -%}
+        {% assign branch-checker = branch-checker | plus: 1 %}
+      {%- endif -%}
+    {% endfor %}
+
+    <div class="cart-row">
+      <div class="grid">
+        {% if settings.cart_notes_enable %}
+          <div class="grid-item large--one-half">
+            <div>
+              <strong>Delivery policies:</strong>
+              <div class="accordion-container">
+                {% assign branch = cart.attributes.branch %}
+                <button class="accordion-toggle tooltip-wrapper" type="button">
+                  Express Same-Day Delivery ▾
+                  {% if branch == 'Nesabel San Rafael' or branch == 'Nesabel Bustos' %}
+                    <span class="tooltip-text">Coming soon for Nesabel San Rafael and Nesabel Bustos</span>
+                  {% endif %}
+                </button>
+                <div class="accordion-content">
+                  <ul>
+                    <li>Your groceries will be delivered on the same day.</li>
+                    <li>Orders sent after 6:00 PM will be delivered the following day.</li>
+                    <li>Delivery rates are subject to surge rates.</li>
+                    <li>
+                      Express Same-Day Delivery with Payment on Delivery (POD) only available for orders less than Php
+                      2,000.00.
+                    </li>
+                    <li>POD fee for Express Same-Day Delivery is +Php 50.00.</li>
+                    <li>Please wait for our call/text regarding your total bill with the final delivery charge.</li>
+                    <li><strong>Orders will only be sent for delivery after payment of total bill.</strong></li>
+                    <li>
+                      <small><em>Sample Computation</em></small>
+                    </li>
+                    <ul>
+                      <small>
+                        <li>Express Base Rate: Php 75.00</li>
+                        <li>Courier Fee: Php 64.00</li>
+                        <li>[Optional for orders less than Php 2,000]:</li>
+                        <li>Payment on Delivery Fee: Php 50.00</li>
+                        <li><strong>Total Express Delivery Fee: Php 189.00 </strong></li>
+                      </small>
+                    </ul>
+                  </ul>
+                </div>
+
+                <button class="accordion-toggle" type="button">Standard Delivery ▾</button>
+                <div class="accordion-content">
+                  <ul>
+                    <li>Your groceries will be delivered in 2–3 days.</li>
+                    <li>Delivery rates depend on delivery address.</li>
+                    <li>Delivery rates can be seen in the Delivery Rates button seen above. No additional fees.</li>
+                    <li>Please wait for our call/text regarding your total bill.</li>
+                  </ul>
+                </div>
+
+                {% if cart.attributes.branch == 'Nesabel Pateros Wholesale' %}
+                  <button class="accordion-toggle" type="button">Payment on Delivery for Wholesale ▾</button>
+                  <div class="accordion-content">
+                    <ul>
+                      <li>All customers must submit the agreement form.</li>
+                      <li>
+                        Please go to the customer service at our branch and look for a customer representative to assist
+                        you.
+                      </li>
+                      <li>
+                        <a
+                          href="https://cdn.shopify.com/s/files/1/0557/4862/4569/files/KASUNDUAN_POD_v3.docx?v=1653613510"
+                          target="_blank"
+                        >
+                          <u>Download agreement form here</u>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <label for="cartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+            <textarea name="note" class="input-full" id="cartSpecialInstructions">{{ cart.note }}</textarea>
+          </div>
+        {% endif %}
+
+        <div class="grid-item text-right{% if settings.cart_notes_enable %} large--one-half{% endif %}">
+          <div class="cart-subtotal{% if settings.cart_notes_enable %} cart-subtotal--notes-enabled{% endif %}">
+            {%- if cart.cart_level_discount_applications != blank -%}
+              <div class="order-discount-cart-wrapper">
+                {%- for discount_application in cart.cart_level_discount_applications -%}
+                  <span class="order-discount order-discount--title">
+                    <span class="icon icon-saletag" aria-hidden="true"></span
+                    ><span class="visually-hidden">{{ 'customer.order.discount' | t }}:</span>
+                    {{- discount_application.title -}}
+                  </span>
+                  <span class="order-discount order-discount--cart-price"
+                    >-{{ discount_application.total_allocated_amount | money -}}
+                  </span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {{ 'cart.general.subtotal' | t }}
+            <span class="h1 cart-subtotal--price">
+              {% include 'price' with cart.total_price %}
+            </span>
+          </div>
+
+          {%- capture taxes_shipping_checkout -%}
+        {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+        {{ 'cart.general.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+        {%- elsif cart.taxes_included -%}
+        {{ 'cart.general.taxes_included_but_shipping_at_checkout' | t }}
+        {%- elsif shop.shipping_policy.body != blank -%}
+        {{ 'cart.general.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+        {%- else -%}
+        {{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
+        {%- endif -%}
+        {%- endcapture -%}
+
+          <p class="cart__policies">
+            {%- if branch-checker != 0 -%}
+              You have products in your cart that are unavailable in this branch. Please delete those items or click the
+              change branch button above to switch branches.
+              <br>
+              <small
+                >Mayroon mga produkto sa iyong kart na hindi available sa branch na pinili mo. Pakitanggal ang mga ito o
+                kaya pindutin ang Change Branch para magpalit ng branch.</small
+              >
+            {%- else -%}
+              Please review your order. Once checked out,
+              <strong>you may not be able to make any changes to your order</strong>, such as additions, cancellations,
+              or modifications.
+              <br>
+              <small
+                >Maaring suriin ng mabuti ang iyong order. Maaaring
+                <strong>hindi na pwede baguhin ang iyong order</strong> kapag ikaw ay nakapag-checkout na.</small
+              >
+              <br>
+              <br>
+
+              <input style="vertical-align: middle;" type="checkbox" id="agree">
+              <label style="display: inline; font-size: 1em;" for="agree">
+                <strong
+                  >My order is final, and I agree with the above. <br>
+                  <small>Ang aking order ay hindi ko na babaguhin, at sumasangayon ako sa nasa itaas.</small></strong
+                >
+              </label>
+              <div id="agree-error" class="tooltip-error" style="display: none;">Please agree to continue.</div>
+            {%- endif -%}
+          </p>
+          {%- if branch-checker == 0 -%}
+            <input
+              type="submit"
+              name="update"
+              class="btn-secondary update-cart"
+              value="{{ 'cart.general.update' | t }}"
+            >
+            <button type="submit" name="checkout" class="btn">
+              <span class="icon icon-cart"></span>
+              {{ 'cart.general.checkout' | t }}
+            </button>
+          {% endif %}
+          <button
+            class="btn"
+            id="empty-cart"
+            type="button"
+            style="margin-bottom: 2px; background-color: #a10000; color: white"
+            onclick="
+              if (confirm('ALL items in your cart will be removed! Are you sure?')){
+              txt = 'Empty cart success!';
+                $.ajax({
+                type: 'POST',
+                url: '/cart/clear.js',
+                dataType: 'json',
+                success: function(){
+                alert('Cart cleared successfully!');
+                window.location.reload()
+                },
+                });
+              } else {
+                txt = 'Empty cart aborted!';
+              }
+            "
+          >
+            <span> Empty Cart </span>
+          </button>
+
+          {% if additional_checkout_buttons %}
+            <div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </form>
+{% else %}
+  <div id="EmptyCart">
+    <h1 class="h2">{{ 'cart.general.title' | t }}</h1>
+    <p class="cart--empty-message">{{ 'cart.general.empty' | t }}</p>
+    <p class="cart--continue-message">
+      {{ 'cart.general.continue_browsing_html' | t: link: routes.all_products_collection_url }}
+    </p>
+    <p class="cart--cookie-message">{{ 'cart.general.cookies_required' | t }}</p>
+  </div>
+{% endif %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const checkoutButton = document.querySelector('button[name="checkout"]');
+      const agreeCheckbox = document.getElementById('agree');
+      const agreeLabel = document.querySelector('label[for="agree"]');
+      const errorMsg = document.getElementById('agree-error');
+
+      if (checkoutButton) {
+        checkoutButton.addEventListener("click", function (e) {
+          if (!agreeCheckbox.checked) {
+            e.preventDefault();
+
+            const labelRect = agreeLabel.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            errorMsg.style.display = 'block';
+            errorMsg.style.top = (labelRect.top + scrollTop - errorMsg.offsetHeight - 10) + 'px';
+            errorMsg.style.left = (labelRect.left + 20) + 'px';
+
+            setTimeout(() => {
+              errorMsg.style.display = 'none';
+            }, 2500);
+          }
+        });
+      }
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+    const toggles = document.querySelectorAll(".accordion-toggle");
+
+    toggles.forEach(toggle => {
+      toggle.addEventListener("click", () => {
+        const content = toggle.nextElementSibling;
+        const isOpen = content.style.maxHeight;
+
+        // Collapse all others
+        document.querySelectorAll(".accordion-content").forEach(c => c.style.maxHeight = null);
+        document.querySelectorAll(".accordion-toggle").forEach(b => b.innerHTML = b.innerHTML.replace("▴", "▾"));
+
+        if (!isOpen) {
+          content.style.maxHeight = content.scrollHeight + "px";
+          toggle.innerHTML = toggle.innerHTML.replace("▾", "▴");
+        }
+      });
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const tooltipWrappers = document.querySelectorAll(".tooltip-wrapper");
+
+    tooltipWrappers.forEach(wrapper => {
+      wrapper.addEventListener("click", function (e) {
+        const tooltip = wrapper.querySelector(".tooltip-text");
+
+        // Toggle visibility
+        if (tooltip.style.visibility === "visible") {
+          tooltip.style.visibility = "hidden";
+          tooltip.style.opacity = 0;
+        } else {
+          // Hide any other tooltips first
+          document.querySelectorAll(".tooltip-text").forEach(el => {
+            el.style.visibility = "hidden";
+            el.style.opacity = 0;
+          });
+
+          tooltip.style.visibility = "visible";
+          tooltip.style.opacity = 1;
+        }
+
+        // Hide tooltip on outside click
+        document.addEventListener("click", function hideTooltipOutside(ev) {
+          if (!wrapper.contains(ev.target)) {
+            tooltip.style.visibility = "hidden";
+            tooltip.style.opacity = 0;
+            document.removeEventListener("click", hideTooltipOutside);
+          }
+        });
+      });
+    });
+  });
+</script>

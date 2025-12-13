@@ -1,0 +1,67 @@
+{
+  "sections": {
+    "16427816120f364d0c": {
+      "type": "slideshow",
+      "blocks": {
+        "673d77f3-e489-4da6-9df7-8b8793cae9ec": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/6_9ede0a26-f68e-48a1-9a0c-466517007c11.png",
+            "link": ""
+          }
+        },
+        "c495c99f-0033-435b-9757-178e5adf3178": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/4_4b68d575-ac69-4f92-8288-24784b3feeb7.png",
+            "link": ""
+          }
+        },
+        "image_cXCzUy": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/5_c715f585-aaa5-4623-8701-705ca009287e.png",
+            "link": ""
+          }
+        },
+        "16427816121c3e5c74-0": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/NES_GW_SHOPIFY_WITH_DELIVERY_NOTE_05042021.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "673d77f3-e489-4da6-9df7-8b8793cae9ec",
+        "c495c99f-0033-435b-9757-178e5adf3178",
+        "image_cXCzUy",
+        "16427816121c3e5c74-0"
+      ],
+      "settings": {
+        "slider_home_auto": true,
+        "slider_home_rate": "5000"
+      }
+    },
+    "164278747733446dcf": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Recommended Products",
+        "home_featured_row": "recommended-products",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": true,
+        "product_show_compare_at_price": false
+      }
+    },
+    "tutorial": {
+      "type": "tutorial",
+      "settings": {}
+    }
+  },
+  "order": [
+    "16427816120f364d0c",
+    "164278747733446dcf",
+    "tutorial"
+  ]
+}

@@ -1,0 +1,13 @@
+<script>
+  console.log("Test");
+  window.onload = function () {
+    $.ajax({
+      type: "POST",
+      url: "/cart.js",
+      data: {
+        "attributes[branch]": "Nesabel Bustos",
+      } /* We are using an attribute named "branch" */,
+      dataType: "json",
+    });
+  };
+</script>

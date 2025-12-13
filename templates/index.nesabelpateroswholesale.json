@@ -1,0 +1,139 @@
+{
+  "sections": {
+    "16427816120f364d0c": {
+      "type": "slideshow",
+      "blocks": {
+        "16427816121c3e5c74-0": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/NES_GW_SHOPIFY_WITH_DELIVERY_NOTE_05042021.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "16427816121c3e5c74-0"
+      ],
+      "settings": {
+        "slider_home_auto": true,
+        "slider_home_rate": "5000"
+      }
+    },
+    "16427816433297c49e": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Clothing Promo",
+        "home_featured_row": "clothing-promo",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "1642786243aeca3dcc": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Recommended Products",
+        "home_featured_row": "best-selling-collection",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "164278560807452441": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Nestle Promo",
+        "home_featured_row": "nestle-promo",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "1642785655dff53b48": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Wholesale Give away",
+        "home_featured_row": "wholesale-give-away-promos",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "1642785674df7b2810": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "School Supplies Item Giveaway",
+        "home_featured_row": "school-supplies-item-give-away",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "1642786156a7458003": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Unilever Promo",
+        "home_featured_row": "unilever-promo",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "1642786207fdb82ae3": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Simply G Promo",
+        "home_featured_row": "simply-g-promo",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "164278624003886ae6": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Drugstore Unilab and Ritemed",
+        "home_featured_row": "drugstore-unilab-and-ritemed",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "Promo1": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Bigasan Give away",
+        "home_featured_row": "bigasan-give-away",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": false,
+        "product_show_compare_at_price": false
+      }
+    },
+    "tutorial": {
+      "type": "tutorial",
+      "settings": {}
+    }
+  },
+  "order": [
+    "16427816120f364d0c",
+    "16427816433297c49e",
+    "1642786243aeca3dcc",
+    "164278560807452441",
+    "1642785655dff53b48",
+    "1642785674df7b2810",
+    "1642786156a7458003",
+    "1642786207fdb82ae3",
+    "164278624003886ae6",
+    "Promo1",
+    "tutorial"
+  ]
+}

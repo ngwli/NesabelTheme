@@ -1,0 +1,55 @@
+{
+  "sections": {
+    "16427816120f364d0c": {
+      "type": "slideshow",
+      "blocks": {
+        "16427816121c3e5c74-0": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/NES_GW_SHOPIFY_WITH_DELIVERY_NOTE_05042021.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "16427816121c3e5c74-0"
+      ],
+      "settings": {
+        "slider_home_auto": false,
+        "slider_home_rate": "5000"
+      }
+    },
+    "16427866118591f00d": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Unilever Sugar Promo",
+        "home_featured_row": "unilever-sugar-promo",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": true,
+        "product_show_compare_at_price": false
+      }
+    },
+    "1642787471811399ce": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Recommended Products",
+        "home_featured_row": "best-selling-products",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": true,
+        "product_show_compare_at_price": false
+      }
+    },
+    "tutorial": {
+      "type": "tutorial",
+      "settings": {}
+    }
+  },
+  "order": [
+    "16427816120f364d0c",
+    "16427866118591f00d",
+    "1642787471811399ce",
+    "tutorial"
+  ]
+}

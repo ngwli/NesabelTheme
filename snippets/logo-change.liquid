@@ -1,0 +1,12 @@
+{% assign branch = cart.attributes.branch %}
+{% if branch == 'Nesabel Pateros'%}
+	{% assign site_logo = 'https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Untitled-2_60518ef5-d788-4850-a339-977d49bcfd6b.png' %}
+	{% assign padding = '27.9520295202952' %}
+{% elsif branch == 'Chronos Mart' %}
+	{% assign site_logo = 'https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Chronos_2_360x_ec40f26a-1bfd-43a9-8196-ba3e32d6218b.jpg' %}
+	{% assign padding = '50' %}
+{% else %}
+	{% assign site_logo = 'https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Untitled-2_60518ef5-d788-4850-a339-977d49bcfd6b.png' %}
+	{% assign padding = '27.9520295202952' %}
+{% endif %}
+
