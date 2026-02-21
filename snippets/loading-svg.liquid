@@ -1,0 +1,33 @@
+<style>  
+  div#loading-logo-bg {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 150;
+  }
+</style>
+
+<div id="loading-logo-bg"></div>
+<div id="loading-logo" style="display:none;position: fixed;
+    left: 0; right: 0;
+    top: 15%;
+    margin: 0 auto;z-index:200;">
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+<circle cx="34" cy="50" fill="#010755" r="16">
+  <animate attributeName="cx" repeatCount="indefinite" dur="1.5384615384615383s" keyTimes="0;0.5;1" values="34;66;34" begin="-0.7692307692307692s"></animate>
+</circle>
+<circle cx="66" cy="50" fill="#fe0301" r="16">
+  <animate attributeName="cx" repeatCount="indefinite" dur="1.5384615384615383s" keyTimes="0;0.5;1" values="34;66;34" begin="0s"></animate>
+</circle>
+<circle cx="34" cy="50" fill="#010755" r="16">
+  <animate attributeName="cx" repeatCount="indefinite" dur="1.5384615384615383s" keyTimes="0;0.5;1" values="34;66;34" begin="-0.7692307692307692s"></animate>
+  <animate attributeName="fill-opacity" values="0;0;1;1" calcMode="discrete" keyTimes="0;0.499;0.5;1" dur="1.5384615384615383s" repeatCount="indefinite"></animate>
+</circle>
+</svg>
+    <h2 style="color:white; text-align:center;">Please wait for a moment...</h3>
+</div>

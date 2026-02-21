@@ -1,0 +1,546 @@
+<style>
+          :root {
+            --nesabel-red: #a10000;
+            --modal-bg: rgba(0, 0, 0, 0.5);
+            --btn-radius: 4px;
+            --transition-duration: 0.3s;
+          }
+
+          /* Floating Help Button */
+          #help-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--nesabel-red);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            cursor: pointer;
+          }
+
+          #help-button img {
+            width: 24px;
+            height: 24px;
+          }
+
+          /* Modal Overlay */
+          .tutorial-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            z-index: 1001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity var(--transition-duration) ease;
+          }
+
+          .tutorial-modal.modal-active {
+            display: flex;
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .tutorial-content {
+    background-color: #fffefb;
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+    margin: auto;
+    max-height: 90vh; /* 🔥 NEW: limit modal height to 90% of viewport */
+    overflow-y: auto;  /* 🔥 NEW: allow internal scroll if needed */
+  }
+
+          .tutorial-media video {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+          }
+
+          .tutorial-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--nesabel-red);
+            margin-bottom: 1rem;
+          }
+
+          .tutorial-text {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+          }
+
+          .tutorial-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
+          }
+
+          .tutorial-footer .btn,
+          .language-btn {
+            background-color: var(--nesabel-red);
+          }
+
+          .tutorial-footer .btn,
+          .language-btn,
+          .tutorial-content .btn {
+            color: #fff;
+            border: none;
+            padding: 0.7em 1em;
+            border-radius: var(--btn-radius);
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            box-sizing: border-box;
+          }
+
+          .language-btn {
+            margin: 0 10px;
+            width: auto;
+          }
+
+          .tutorial-option {
+            display: block;
+            text-align: center;
+            margin-bottom: 0.75rem;
+          }
+
+          .tutorial-step {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all var(--transition-duration) ease;
+            display: none;
+          }
+
+          .tutorial-step.active {
+            display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        transform: translateY(0);
+          }
+
+        .tutorial-step.hidden {
+        display: none;
+      }
+
+        .close-modal-btn {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: transparent;
+          color: #000;
+          font-size: 1.5rem;
+          font-weight: bold;
+          border: none;
+          cursor: pointer;
+          z-index: 1002;
+        }
+
+          @media screen and (max-width: 600px) {
+            .tutorial-footer {
+              flex-direction: column;
+            }
+
+            .tutorial-footer .btn {
+              width: 100%;
+            }
+
+            .tutorial-media video {
+      max-width: 100%;
+      height: auto;
+      max-height: 250px; /* or 200px, depending on how small you want it */
+      object-fit: contain;
+    }
+
+
+          }
+</style>
+
+<!-- Floating Help Button -->
+<button id="help-button" aria-label="Help"><strong>?</strong></button>
+
+<!-- Tutorial Modal -->
+<div id="tutorial-modal" class="tutorial-modal" role="dialog" aria-modal="true" aria-labelledby="tutorial-title">
+  <!-- Language Selection -->
+  <div id="tutorial-step-language" class="tutorial-step active">
+    <div class="tutorial-content">
+      <button class="close-modal-btn" aria-label="Close" onclick="closeTutorial()">×</button>
+      <h2 class="tutorial-title">Welcome to Nesabel, Suki! Magandang araw!</h2>
+      <p>Please select your preferred language:</p>
+      <div class="language-selection">
+        <button class="language-btn" data-lang="en">English</button>
+        <button class="language-btn" data-lang="tl">Tagalog</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Options -->
+  <div id="tutorial-step-options" class="tutorial-step">
+    <div class="tutorial-content">
+      <button class="close-modal-btn" aria-label="Close" onclick="closeTutorial()">×</button>
+      <div class="tutorial-body" id="options-en">
+        <h2 class="tutorial-title">What do you need help with?</h2>
+        <button class="btn tutorial-option" onclick="goToStep('add-to-cart')">🛒 How to add items to cart</button>
+        <button class="btn tutorial-option" onclick="goToStep('checkout')">💳 How to checkout</button>
+        <button class="btn tutorial-option" onclick="goToStep('new-account')">👤 How to make a new account</button>
+        <button class="btn tutorial-option" onclick="goToStep('reorder')">🔁 How to re-order a previous order</button>
+      </div>
+
+      <div class="tutorial-body" id="options-tl" style="display: none;">
+        <h2 class="tutorial-title">Anong gusto mong matutunan?</h2>
+        <button class="btn tutorial-option" onclick="goToStep('add-to-cart')">🛒 Paano mag-add to cart</button>
+        <button class="btn tutorial-option" onclick="goToStep('checkout')">💳 Paano mag-checkout</button>
+        <button class="btn tutorial-option" onclick="goToStep('new-account')">👤 Paano gumawa ng bagong account</button>
+        <button class="btn tutorial-option" onclick="goToStep('reorder')">🔁 Paano mag-ulit ng dating order</button>
+      </div>
+
+      <div class="tutorial-footer">
+        <button class="btn tutorial-prev" onclick="goToStep('language')">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Add to Cart -->
+  <div id="tutorial-step-add-to-cart" class="tutorial-step">
+    <div class="tutorial-content">
+      <button class="close-modal-btn" aria-label="Close" onclick="closeTutorial()">×</button>
+      <h2 class="tutorial-title" id="title-add-to-cart-en">🛒 How to add items to cart</h2>
+      <h2 class="tutorial-title" id="title-add-to-cart-tl" style="display:none;">
+        🛒 Paano magdagdag ng produkto sa cart
+      </h2>
+
+      <div class="tutorial-media">
+        <video
+          data-desktop="https://cdn.shopify.com/videos/c/o/v/2c6678f18c2e4de9bf9f397964705b76.mp4"
+          data-mobile="https://cdn.shopify.com/videos/c/o/v/155579ea14314868ac46bf4d6b8de5b4.mp4"
+          id="tutorial-add-to-cart"
+          autoplay
+          loop
+          muted
+          playsinline
+          loading="lazy"
+          class="tutorial-gif"
+        >
+          <source
+            src=""
+            type="video/mp4"
+          >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <br>
+      <div class="tutorial-body" id="add-to-cart-en">
+        <ol class="tutorial-text">
+          <li>Navigate to the categories or select a collection.</li>
+          <li>Click a product or add directly from the list.</li>
+          <li>Select a variant (e.g. size or case).</li>
+          <li>Click <strong>Add to Cart</strong>.</li>
+          <li>Keep shopping if you want to add more!</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-body" id="add-to-cart-tl" style="display: none;">
+        <ol class="tutorial-text">
+          <li>Pumunta sa categories o pili ng collection.</li>
+          <li>I-click ang product o mag-add diretso.</li>
+          <li>Piliin ang variant (halimbawa: size o case).</li>
+          <li>I-click ang <strong>Add to Cart</strong>.</li>
+          <li>Magpatuloy mag-shop kung gusto mong magdagdag pa.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-footer">
+        <button class="btn tutorial-prev" onclick="goToStep('options')">← Back</button>
+        <button class="btn tutorial-next" onclick="goToStep('checkout')">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Checkout -->
+  <div id="tutorial-step-checkout" class="tutorial-step">
+    <div class="tutorial-content">
+      <button class="close-modal-btn" aria-label="Close" onclick="closeTutorial()">×</button>
+      <h2 class="tutorial-title" id="title-checkout-en">💳 How to checkout</h2>
+      <h2 class="tutorial-title" id="title-checkout-tl" style="display:none;">💳 Paano mag-checkout</h2>
+
+      <div class="tutorial-media">
+        <video
+          data-desktop="https://cdn.shopify.com/videos/c/o/v/db309c4fc6154d2ca1dd7145b3a52a9f.mp4"
+          data-mobile="https://cdn.shopify.com/videos/c/o/v/e34eec88d0f548aaadeeaba11bcc27ed.mp4"
+          id="tutorial-checkout"
+          autoplay
+          loop
+          muted
+          playsinline
+          loading="lazy"
+          class="tutorial-gif"
+        >
+          <source
+            src=""
+            type="video/mp4"
+          >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <br>
+      <div class="tutorial-body" id="checkout-en">
+        <ol class="tutorial-text">
+          <li>Go to your cart and review your items.</li>
+          <li>Modify quantities or remove items as needed.</li>
+          <li>Read the terms and conditions of delivery and checkout.</li>
+          <li>Agree by clicking on the checkbox</li>
+          <li>Click <strong>Checkout</strong>.</li>
+          <li>In the next screen, select whether you want your orders to be delivered or picked up.</li>
+          <li>Enter your contact information.</li>
+          <li>Select your preferred payment method.</li>
+          <li>Click <strong>Complete Order</strong> to finish.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-body" id="checkout-tl" style="display: none;">
+        <ol class="tutorial-text">
+          <li>Pumunta sa cart mo at i-review ang mga items.</li>
+          <li>Puwede mong baguhin ang dami o tanggalin ang mga ayaw mo na.</li>
+          <li>Basahin ang terms and conditions ng delivery at checkout.</li>
+          <li>I-check ang box para sumang-ayon.</li>
+          <li>I-click ang <strong>Checkout</strong>.</li>
+          <li>Sa next screen, piliin kung gusto mong i-deliver o i-pick up ang order mo.</li>
+          <li>Ilagay ang contact details mo.</li>
+          <li>Piliin ang preferred mong payment method.</li>
+          <li>I-click ang <strong>Complete Order</strong> para matapos ang proseso.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-footer">
+        <button class="btn tutorial-prev" onclick="goToStep('options')">← Back</button>
+        <button class="btn tutorial-next" onclick="goToStep('new-account')">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5: New account -->
+  <div id="tutorial-step-new-account" class="tutorial-step">
+    <div class="tutorial-content">
+      <button class="close-modal-btn" aria-label="Close" onclick="closeTutorial()">×</button>
+      <h2 class="tutorial-title" id="title-new-account-en">👤 How to make a new account</h2>
+      <h2 class="tutorial-title" id="title-new-account-tl" style="display:none;">👤 Paano gumawa ng bagong account</h2>
+
+      <div class="tutorial-media">
+        <video
+          data-desktop="https://cdn.shopify.com/videos/c/o/v/27890a5ef94a4dafae7be4fd64c0cdff.mp4"
+          data-mobile="https://cdn.shopify.com/videos/c/o/v/3bf32ebcb3604f8dadade2eacdace477.mp4"
+          id="tutorial-create-account"
+          autoplay
+          loop
+          muted
+          playsinline
+          loading="lazy"
+          class="tutorial-gif"
+        >
+          <source
+            src=""
+            type="video/mp4"
+          >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <br>
+      <div class="tutorial-body" id="new-account-en">
+        <ol class="tutorial-text">
+          <li>Click <strong>Create an Account</strong> at the top menu.</li>
+          <li>Fill out your name, email, password, contact number, and Nesabel Customer Card No.</li>
+          <li>Click <strong>Create</strong> to finish.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-body" id="new-account-tl" style="display: none;">
+        <ol class="tutorial-text">
+          <li>I-click ang <strong>Account</strong> icon sa upper right.</li>
+          <li>Piliin ang <strong>Create Account</strong>.</li>
+          <li>Ilagay ang pangalan, email, password, contact number, at Nesabel Customer number mo.</li>
+          <li>I-click ang <strong>Create</strong> para matapos.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-footer">
+        <button class="btn tutorial-prev" onclick="goToStep('options')">← Back</button>
+        <button class="btn tutorial-next" onclick="goToStep('reorder')">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 6: Reorder -->
+  <div id="tutorial-step-reorder" class="tutorial-step">
+    <div class="tutorial-content">
+      <button class="close-modal-btn" aria-label="Close" onclick="closeTutorial()">×</button>
+      <h2 class="tutorial-title" id="title-reorder-en">🔁 How to re-order a previous order</h2>
+      <h2 class="tutorial-title" id="title-reorder-tl" style="display:none;">🔁 Paano mag-ulit ng dating order</h2>
+
+      <div class="tutorial-media">
+        <video
+          data-desktop="https://cdn.shopify.com/videos/c/o/v/d4f6dbd76eca41aa82f21d0dcfb810f4.mp4"
+          data-mobile="https://cdn.shopify.com/videos/c/o/v/6da7855485a943f9a5a89d2c660ff1f1.mp4"
+          id="tutorial-reorder"
+          autoplay
+          loop
+          muted
+          playsinline
+          loading="lazy"
+          class="tutorial-gif"
+        >
+          <source
+            src=""
+            type="video/mp4"
+          >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <br>
+      <div class="tutorial-body" id="reorder-en">
+        <ol class="tutorial-text">
+          <li>Log in to your account.</li>
+          <li>Go to <strong>Order History</strong> at the top menu.</li>
+          <li>Click Previous Orders.</li>
+          <li>Click the number of the order you want to re-order.</li>
+          <li>
+            You can either <strong>Add the Order to Cart</strong> to modify them or go straight to checkout if you have
+            no changes.
+          </li>
+          <li>You can proceed to checkout as usual.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-body" id="reorder-tl" style="display: none;">
+        <ol class="tutorial-text">
+          <li>Mag-log in sa account mo.</li>
+          <li>Pumunta sa <strong>Order History</strong> sa top menu.</li>
+          <li>I-click ang Previous Orders.</li>
+          <li>I-click ang number ng order na gusto mong i-reorder.</li>
+          <li>
+            Puwede mong <strong>i-Add to Cart</strong> para i-edit muna, o diretso na sa checkout kung wala ka nang
+            babaguhin.
+          </li>
+          <li>Puwede ka nang mag-checkout gaya ng normal.</li>
+        </ol>
+      </div>
+
+      <div class="tutorial-footer">
+        <button class="btn tutorial-prev" onclick="goToStep('options')">← Back</button>
+        <button class="btn tutorial-next" onclick="closeTutorial()">Close ✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  let selectedLang = 'en';
+
+  function goToStep(stepId) {
+    document.querySelectorAll('.tutorial-step').forEach(step => {
+      step.classList.remove('active');
+      step.classList.add('hidden');
+    });
+
+    const step = document.getElementById(`tutorial-step-${stepId}`);
+    if (step) {
+      step.classList.remove('hidden');
+      step.classList.add('active');
+    }
+
+    const enBlock = document.getElementById(`${stepId}-en`);
+    const tlBlock = document.getElementById(`${stepId}-tl`);
+    const enTitle = document.getElementById(`title-${stepId}-en`);
+    const tlTitle = document.getElementById(`title-${stepId}-tl`);
+
+    if (enBlock && tlBlock) {
+      enBlock.style.display = selectedLang === 'en' ? 'block' : 'none';
+      tlBlock.style.display = selectedLang === 'tl' ? 'block' : 'none';
+    }
+
+    if (enTitle && tlTitle) {
+      enTitle.style.display = selectedLang === 'en' ? 'block' : 'none';
+      tlTitle.style.display = selectedLang === 'tl' ? 'block' : 'none';
+    }
+  }
+
+  function closeTutorial() {
+    const modal = document.getElementById('tutorial-modal');
+    modal.classList.remove('modal-active');
+    document.body.style.overflow = '';
+    setTimeout(() => goToStep('language'), 300);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const helpButton = document.getElementById('help-button');
+    const tutorialModal = document.getElementById('tutorial-modal');
+    const languageButtons = document.querySelectorAll('.language-btn');
+    const tutorialVideos = document.querySelectorAll('.tutorial-gif');
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    helpButton.addEventListener('click', () => {
+      tutorialModal.classList.add('modal-active');
+      document.body.style.overflow = 'hidden';
+      goToStep('language');
+    });
+
+    languageButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedLang = btn.getAttribute('data-lang');
+        goToStep('options');
+      });
+    });
+
+    tutorialModal.addEventListener('click', (e) => {
+      if (e.target === tutorialModal) {
+        e.stopPropagation();
+        tutorialModal.classList.remove('modal-active');
+        document.body.style.overflow = '';
+        setTimeout(() => goToStep('language'), 300);
+      }
+    });
+
+    tutorialVideos.forEach(video => {
+      const source = video.querySelector('source');
+      const desktopSrc = video.getAttribute('data-desktop');
+      const mobileSrc = video.getAttribute('data-mobile');
+      source.setAttribute('src', isMobile ? mobileSrc : desktopSrc);
+      video.load();
+    });
+  });
+
+  // 🔥 Expose these to the global scope so HTML onclick works
+  window.goToStep = goToStep;
+  window.closeTutorial = closeTutorial;
+})();
+</script>

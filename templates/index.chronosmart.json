@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "1642788613ea9e3f09": {
+      "type": "slideshow",
+      "blocks": {
+        "16427886133c21ef7b-0": {
+          "type": "image",
+          "settings": {
+            "slide": "shopify:\/\/shop_images\/CM_SHOPIFY_now_online_01152021_1.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "16427886133c21ef7b-0"
+      ],
+      "settings": {
+        "slider_home_auto": true,
+        "slider_home_rate": "5000"
+      }
+    },
+    "1642788615a56ab08b": {
+      "type": "collection-rows",
+      "settings": {
+        "title": "Recommended Products",
+        "home_featured_row": "recommended-products-2",
+        "grid": 4,
+        "rows": 1,
+        "product_show_saved_amount": true,
+        "product_show_compare_at_price": false
+      }
+    },
+    "tutorial": {
+      "type": "tutorial",
+      "settings": {}
+    }
+  },
+  "order": [
+    "1642788613ea9e3f09",
+    "1642788615a56ab08b",
+    "tutorial"
+  ]
+}

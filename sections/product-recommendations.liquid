@@ -1,0 +1,105 @@
+{% assign current_vendor = product.vendor %}
+{% assign grid_item_width = 'large--one-fifth medium--one-third small--one-half' %}
+
+<div class="product-recommendations" data-product-id="{{ product.id }}" data-limit="10">
+  {%- if recommendations.products_count > 0 -%}
+    <h2 class="h1">You may also like</h2>
+    <div class="grid-uniform">
+      {%- for product in recommendations.products -%}
+      {% if product.vendor != current_vendor %}
+      {% continue %}
+      {% endif %}
+      {% assign image = product.featured_image %}
+      {%- assign width = '195' -%}
+      {%- assign height = '125' -%}
+      {%- assign max_width = width | plus: 0 -%}
+      {%- assign max_height = height | plus: 0 -%}
+      {%- include 'image-logic' with width: max_width, height: max_height -%}
+<div class="grid-item {{ grid_item_width }}{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
+        <a href="{{ product.url }}" class="product-grid-item">
+          <div class="product-grid-image">
+    <div class="product-grid-image--centered">	
+      <div class="product-card__image js" 
+           style="max-width: {{ max_width }}px; margin: 0 auto;" 
+           data-image-id="{{ image.id }}">
+          {% assign img_url = image | img_url: 'small'%}
+          <img class="lazyload"
+            data-src="{{ img_url }}"
+            data-widths="[125, 180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+            data-aspectratio="{{ image.aspect_ratio }}"
+            data-sizes="auto"
+            alt="{{ image.alt | escape }}"
+			{% comment %}style="max-height: {{ height }}px; max-width: {{ width }}px; padding:">{% endcomment %}>
+      </div>
+      <noscript>
+        <img src="{{ product.image.src | img_url: '480x480' }}" alt="{{ product.featured_image.alt | escape }}" class="product-card__image">
+      </noscript>
+    </div>
+  </div>
+          
+          <p class="collection-product-title" style="text-align: center;">{{ product.title }}</p>
+          <p class="product-item--price" style="text-align: center;">
+            <span class="h1 medium--left"  style="margin-bottom: 0">{{ product.price | money}}</span></p>
+            {% if product.vendor == cart.attributes.branch and product.available %}
+<input type="button" class="btn" value="Go to item" onclick=""/>
+  {% endif %}
+        </a>
+        {% comment %} Custom code by JR Castor of Nesabel Corp. Oct, 2021. Adds an ajax add-to-cart button to the page. {% endcomment %}
+
+            </div>
+      {% assign counter = counter | plus: 1 %}
+             {% if counter == 5 %}
+               {% break %}
+             {% endif %}
+      {%- endfor -%}
+
+  {%- endif -%}
+
+  </div>
+  </div>
+
+{% schema %}
+  {
+    "name": "Section name",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+var loadProductRecommendationsIntoSection = function() {
+  // Look for an element with class 'product-recommendations'
+  var productRecommendationsSection = document.querySelector(".product-recommendations");
+  if (productRecommendationsSection === null) { return; }
+  // Read product id from data attribute
+  var productId = productRecommendationsSection.dataset.productId;
+  // Read limit from data attribute
+  var limit = productRecommendationsSection.dataset.limit;
+  // Build request URL
+  var requestUrl = "/recommendations/products?section_id=product-recommendations&limit="+limit+"&product_id="+productId;
+  // Create request and submit it using Ajax
+  var request = new XMLHttpRequest();
+  request.open("GET", requestUrl);
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 300) {
+      var container = document.createElement("div");
+      container.innerHTML = request.response;
+      productRecommendationsSection.parentElement.innerHTML = container.querySelector(".product-recommendations").innerHTML;
+    }
+  };
+  request.send();
+};
+// If your section has theme settings, the theme editor
+// reloads the section as you edit those settings. When that happens, the
+// recommendations need to be fetched again.
+// See https://help.shopify.com/en/themes/development/sections/integration-with-theme-editor
+document.addEventListener("shopify:section:load", function(event) {
+  if (event.detail.sectionId === "product-recommendations") {
+    loadProductRecommendationsIntoSection();
+  }
+});
+// Fetching the recommendations on page load
+loadProductRecommendationsIntoSection();
+{% endjavascript %}

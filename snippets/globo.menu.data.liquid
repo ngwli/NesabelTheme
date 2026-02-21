@@ -1,0 +1,13 @@
+{%- assign primary_locale = 'null' -%}
+{%- for locale in shop.published_locales -%}{%- if locale.primary -%}{%- assign primary_locale = locale.iso_code | json -%}{%- endif -%}{%- endfor -%}
+<script>
+  window.GloboMenuConfig.hasCarousel = {% if items contains 'carousel' %}true{% else %}false{% endif %};
+  window.GloboMenuConfig.products = window.GloboMenuConfig.products || {};
+  window.GloboMenuConfig.collections = window.GloboMenuConfig.collections || {};
+  window.GloboMenuConfig.pages = window.GloboMenuConfig.pages || {};
+  window.GloboMenuConfig.curLocale = {{request.locale.iso_code | json}};
+  window.GloboMenuLocale = {{request.locale.iso_code | json}};
+  window.GloboMenuConfig.locale = {{primary_locale}};
+  window.isMultiCurrency  = false;
+  window.GloboMenuMissingProducts = [];
+  window.GloboMenuConfig.items[1]['submenu']['items'][0]['submenu']['items'][0]['submenu']['items'][0].products = [{%- for product in collections['best-selling-collection'].products limit: 3 -%}{%- unless forloop.first  -%},{%- endunless -%}{{product | json}}{%- endfor -%}];</script>

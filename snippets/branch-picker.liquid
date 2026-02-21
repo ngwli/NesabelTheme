@@ -1,0 +1,18 @@
+<select name="branch-picker" id="branch-picker">
+	{%- assign branches = 'Select Branch,Nesabel Pateros,Chronos Mart,Nesabel Bustos,Nesabel San Rafael,Nesabel Pateros Wholesale,Chronos Mart Wholesale,Nesabel Bustos Wholesale,Nesabel San Rafael Wholesale' | split:',' -%}
+	{%- for i in branches -%}
+		{% assign v = i | append:'' %}
+			<option value="{{ v }}"
+				{% if cart.attributes.branch != blank and cart.attributes.branch %}
+					{% if cart.attributes.branch == v %} 
+						selected
+					{% endif %}
+				{% else %}
+					{% if i == '' %} 
+						selected
+					{% endif %}
+				{% endif %}>
+				{{ i }} 
+  			</option>
+	{%- endfor -%}
+</select>

@@ -1,0 +1,101 @@
+<script>
+    
+    let branch1 = window.location.href.replace('https://nesabel.com/','')
+    console.log(branch1);
+    if (branch1 == '?view=nesabelpateros')
+    {window.onload = function () {
+      document.getElementById("loading-logo-bg").style.display = "block";
+      document.getElementById("loading-logo").style.display = "block";
+      console.log('test');
+    $.ajax({
+      type: "POST",
+      url: "/cart.js",
+      data: {
+        "attributes[branch]": "Nesabel Pateros",
+      } /* We are using an attribute named "branch" */,
+      success: function(d){
+      /* 
+      On sucess, reload the page.  
+      Warning: If you have scripts on the page that auto trigger the change even the page may reload forever.
+      If you do, be sure to add code to account for that.
+      */
+      /* Edited the above function to bring back to homepage */
+      if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+    },
+      dataType: "json"
+    });
+  };}
+    else if (branch1 == '?view=chronosmart')
+    {window.onload = function () {
+      document.getElementById("loading-logo-bg").style.display = "block";
+      document.getElementById("loading-logo").style.display = "block";
+    $.ajax({
+      type: "POST",
+      url: "/cart.js",
+      data: {
+        "attributes[branch]": "Chronos Mart",
+      } /* We are using an attribute named "branch" */,
+      success: function(d){
+      /* 
+      On sucess, reload the page.  
+      Warning: If you have scripts on the page that auto trigger the change even the page may reload forever.
+      If you do, be sure to add code to account for that.
+      */
+      /* Edited the above function to bring back to homepage */
+      if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+    },
+      dataType: "json"
+    });
+  };}
+     else if (branch1 == '?view=nesabelsanrafael')
+    {window.onload = function () {
+      document.getElementById("loading-logo-bg").style.display = "block";
+      document.getElementById("loading-logo").style.display = "block";
+    $.ajax({
+      type: "POST",
+      url: "/cart.js",
+      data: {
+        "attributes[branch]": "Nesabel San Rafael",
+      } /* We are using an attribute named "branch" */,
+      success: function(d){
+      /* 
+      On sucess, reload the page.  
+      Warning: If you have scripts on the page that auto trigger the change even the page may reload forever.
+      If you do, be sure to add code to account for that.
+      */
+      /* Edited the above function to bring back to homepage */
+      if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+    },
+      dataType: "json"
+    });
+  };}
+     else if (branch1 == '?view=nesabelbustos')
+    {
+      document.getElementById("loading-logo-bg").style.display = "block";
+      document.getElementById("loading-logo").style.display = "block";
+      window.onload = function () {
+    $.ajax({
+      type: "POST",
+      url: "/cart.js",
+      data: {
+        "attributes[branch]": "Nesabel Bustos",
+      },
+      success: function(d){
+      if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+    },
+      dataType: "json"
+    });
+  };}
+  </script>

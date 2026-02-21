@@ -1,0 +1,132 @@
+<!-- Custom code by JR Castor of Nesabel Aug 21, 2021. Custom collection menu on the sidebar. -->
+
+<style>
+  .sidebar-collection {
+    overflow: none;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .sidebar-header {
+    font-size: 1.5em;
+    padding: 5px;
+  }
+  
+  .sidebar-menu-wrapper {
+    background-color: white;
+    width: 170px;
+    float: left;
+    height: 500px;
+  }
+  
+  .sidebar-menu-main {
+	padding: 3px 0 3px 6px;
+    border-bottom: 0.5px #CCC solid;
+  }
+  
+  .sidebar-menu-wrapper, .sidebar-menu-child-wrapper, .sidebar-menu-grandchild-wrapper {
+    list-style: none;
+    margin: 0;
+	padding: 0.5em 0;
+  }
+  
+  .sidebar-links {
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-links:hover {
+    margin: 0;
+    padding: 0;
+  	color: #010755;
+    text-decoration: underline;
+  }
+  
+  .sidebar-menu-child {
+  	padding: 3px 0 3px 6px;
+    border-bottom: 0.5px #CCC solid;
+  }
+  
+  .sidebar-menu-child:hover {
+  	background-color: #CCC;
+    outline: 0.5px #767676 solid;
+    border-radius: 5px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s;
+  } 
+  
+  .sidebar-menu-main:hover {
+    background-color: #f5f5f5;
+    outline: 0.5px #CCC solid;
+    border-radius: 5px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s;
+  }  
+  
+  .sidebar-menu-main:hover > ul {
+    left: 170px;
+    top: 46px;
+    padding: 6.5px 5px;
+    width: 400px;
+    opacity: 1;
+    height: 468px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    border: 0.5px #CCC solid;
+    border-radius: 5px;
+    transition: opacity 0.2s;
+  }
+  
+  .sidebar-menu-child-wrapper {
+  	position: absolute;
+  	background-color: white;
+  	z-index: -1;
+  	height: auto;
+    max-width: 169px;
+    opacity: 0;
+  } 
+  
+  #sidebar-arrow {
+  	display: inline-block;
+    text-align: right;
+  }
+  
+</style>
+
+<div class="sidebar-collection">
+  <h2 class="sidebar-header">Categories: </h2>
+  <ul class="sidebar-menu-wrapper">
+    {%- for link in linklists.sidebar-menu-tags.links -%}
+      <li class="sidebar-menu-main">
+        <a class="sidebar-links" href="{{ link.url }}/{{ cart.attributes.branch | replace: " ", "-" }}" {% if link.active %}aria-current="page"{% endif %}>
+          {{ link.title }} {%- if link.links != blank -%} >{% endif %}
+        </a>
+        {%- if link.links != blank -%} 
+          <ul class="sidebar-menu-child-wrapper">
+            {%- for child_link in link.links -%}
+              <li  class="sidebar-menu-child">
+                <a class="sidebar-links" href="{{ child_link.url }}/{{ cart.attributes.branch | replace: " ", "-" }}" {% if child_link.active %}aria-current="page"{% endif %}>
+                  {{ child_link.title }}
+                </a>
+
+                {%- if child_link.links != blank -%}
+                  <ul class="sidebar-menu-grandchild-wrapper">
+                    {%- for grandchild_link in child_link.links -%}
+                      <li class="sidebar-menu-grandchild-wrapper">
+                        <a class="sidebar-links" href="{{ grandchild_link.url }}" {% if grandchild_link.active %}aria-current="page"{% endif %}>
+                          {{ grandchild_link.title }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>

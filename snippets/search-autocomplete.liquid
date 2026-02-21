@@ -1,0 +1,164 @@
+{% assign results_box_width = '242px' %}
+{% assign results_box_background_color = '#ffffff' %}
+{% assign results_box_border_color = '#d4d4d4' %}
+{% assign branch = cart.attributes.branch %}
+
+<script>
+// Source: https://www.huratips.com/tech-tips/how-to-add-autocomplete-for-search-boxes-to-your-shopify-store.html
+var branch = {{ branch | json }};
+branch = branch.replace(/\s+/g, '+');
+  $(function() {
+  var closeButtonHTML = '<span class="close-button" title="Close">×</span>';
+  // Current Ajax request.
+  var currentAjaxRequest = null;
+  // Grabbing all search forms on the page, and adding a .search-results list to each.
+  var searchForms = $('form[action="/search"]').css('position','relative').each(function() {
+    // Grabbing text input.
+    var input = $(this).find('input[name="q"]');
+    // Adding a list for showing search results.
+    var offSet = input.position().top + input.innerHeight();
+    $('<ul class="search-results"></ul>').css( { 'position': 'absolute', 'left': '0px', 'top': offSet } ).appendTo($(this)).hide();    
+    // Listening to keyup and change on the text field within these search forms.
+    input.attr('autocomplete', 'off').bind('keyup change focus', function() {
+      // What's the search term?
+      var term = $(this).val()+'*';
+      // What's the search form?
+      var form = $(this).closest('form');
+      // What's the search URL?
+      var searchURL = '/search?type=product&q=' + branch + '+' + term;
+      // What's the search results list?
+      var resultsList = form.find('.search-results');
+      // If that's a new term and it contains at least 3 characters.
+      // if (term.length > 3 && term != $(this).attr('data-old-term')) {
+      if (term.length > 1) {
+        // Show the relust box
+        resultsList.fadeIn(200);
+        // Check if it's the same term
+        if (term == $(this).attr('data-old-term')) {
+          // Same term again. Don't do anything.
+          return;
+        }
+        // Show that we're searching
+        resultsList.html('<li><span class="title message">Searching...</span></li>');
+        // Saving old query.
+        $(this).attr('data-old-term', term);
+        // Killing any Ajax request that's currently being processed.
+        if (currentAjaxRequest != null) currentAjaxRequest.abort();
+        // Pulling results.
+        currentAjaxRequest = $.getJSON(searchURL + '&view=json', function(data) {
+          // Reset results.
+          resultsList.empty();
+          // If we have no results.
+          if(data.results_count == 0) {
+            resultsList.html('<li><span class="title message">No results</span>'+closeButtonHTML+'</li>');
+            // resultsList.fadeIn(200);
+            // resultsList.hide();
+          } else {
+            // If we have results.
+            $.each(data.results, function(index, item) {
+              //if ({{ branch | json }} != item.vendor) return;
+              // Limit to 7 results
+              if (index >= 7) return;
+              if (index = 0) resultsList.html('<li><span class="title message">No results</span>'+closeButtonHTML+'</li>');
+              var link = $('<a></a>').attr('href', item.url);
+              link.append('<span class="thumbnail"><img src="' + item.thumbnail + '" /></span>');
+              link.append('<span class="title">' + item.title + '</span>');
+              //link.append('<span class="title">' + item.title + '</span>');
+              link.wrap('<li></li>');
+              resultsList.append(link.parent());
+            });
+            // The Ajax request will return at the most 10 results (but we limited to 7 results).
+            // If there are more than 7, let's link to the search results page.
+            
+            if(data.results_count > 7) {
+              resultsList.append('<li><span class="title message"><a href="' + searchURL + '">See more results</a></span>'+closeButtonHTML+'</li>');
+            } else {
+              resultsList.append('<li><span class="title message">No more results</span>'+closeButtonHTML+'</li>');
+            }
+            //resultsList.fadeIn(200);
+          }        
+          // Add click event to close button
+          $('.search-results .close-button').bind('click', function(){
+            $('.search-results').fadeOut(200);
+          });
+        });
+      } else {
+        resultsList.fadeOut(200);
+      }
+    });
+  });
+  // Clicking outside makes the results disappear.
+  /*$('body').bind('click', function(){
+    $('.search-results').hide();
+  });*/
+});
+</script>
+
+<!-- Some styles to get you started. -->
+<style>
+.search-results {
+  z-index: 19;
+  list-style-type: none;   
+  width: {{ results_box_width }};
+  margin: 0;
+  padding: 0;
+  background: {{ results_box_background_color }};
+  border: 1px solid {{ results_box_border_color }};
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.search-results li {
+  display: block;
+  width: 100%;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid {{ results_box_border_color }};
+  line-height: 38px;
+  overflow: hidden;
+}
+.search-results li:first-child {
+  border-top: none;
+}
+.search-results a {
+  color: {{ settings.color_body_text }};
+}
+.search-results .title {
+  float: left;
+  width: {{ results_box_width | remove: 'px' | to_number | minus: 50 }}px;
+  padding-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  /* The text-overflow property is supported in all major browsers. */  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-align: left;
+}
+.search-results .thumbnail {
+  float: left;
+  display: block;
+  width: 32px;
+  height: 32px;    
+  margin: 3px 0 3px 3px;
+  padding: 0;
+  text-align: center;
+  overflow: hidden;
+}
+.search-results .thumbnail img {
+  max-width: 100%;
+}
+.search-results .message {
+  color: #858585;
+}
+.search-results .close-button {
+  float: right;
+  font-size: 3em;
+  color: #858585;
+  margin-right: 7px;
+  cursor: pointer;
+}
+.search-results .close-button:hover {
+  color: {{ settings.color_body_text }};
+}
+</style>
