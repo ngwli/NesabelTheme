@@ -118,7 +118,7 @@
   {% if product.available and canonical_url != "https://nesabel.com/" %}
   <form method="post" action="/cart/add">
   <input type="hidden" name="id" value="{{ variant.id }}" />
-  <div class="qty-wrapper"><label for="quantity">Qty: </label>
+  <div class="qty-wrapper">
   <input min="1" type="number" id="quantity" name="quantity" value="1" />
   <input type="submit" value="Add to cart" class="btn addtocart" />
   </div>
