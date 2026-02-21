@@ -415,7 +415,7 @@ span.page > a {
 
 .product-item--price .h1 {
   margin-top: 10px;        
-  margin-bottom: 0 !important;    
+  margin-bottom: 1px !important;    
   font-weight: 600;
   line-height: 1.4;
   text-align: left;
@@ -450,7 +450,7 @@ span.page > a {
   font-weight: 400;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px){
 .sidebar-menu-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -472,7 +472,7 @@ span.page > a {
   width: 100%;
   max-width: 100%;
   text-align: center;
-  margin-top: 0 !important;
+  margin-top: 4px !important;
 } 
 
 .pagination {
@@ -537,7 +537,7 @@ button#toggleFilters {
   border-radius: 6px;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px){
   .product-grid-image:active {
   position: relative;
   padding-top: 10px;
