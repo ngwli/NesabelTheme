@@ -101,10 +101,9 @@ transition: transform 0.2s ease;
   font-size: 14px;
 }
 
-/* Button Grid (Top Section) */
 .variant-grid-buttons {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Creates the 2-column look */
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
 
@@ -121,22 +120,22 @@ transition: transform 0.2s ease;
 }
 
 .custom-variant-btn.active {
-  background: #f4f4f4; /* Light grey from your target image */
+  background: #f4f4f4; 
   border: 2px solid #333;
   font-weight: bold;
 }
 
-/* Dropdown (Bottom Section) */
+
 .custom-dropdown-select {
   width: 250px;
   padding: 12px;
   border: 1px solid #f4f4f4;
   background: #fff;
   cursor: pointer;
-  appearance: auto !important; /* Forces the arrow to show */
+  appearance: auto !important;
 }
 
-/* Hide everything else that was cluttering the screen */
+
 .product-form__input, .product-form__field, .selector-wrapper {
   display: none !important;
 }
@@ -315,7 +314,6 @@ input.btn {
 }
 
 
- /* Ensure quantity selector and payment buttons stack on mobile */ 
 
 @media screen and (max-width: 749px) { 
 .addToCartForm--payment-button { 
@@ -739,7 +737,7 @@ input.btn {
         }
       });
 
-      // ✅ AUTO-SELECT ONLY WHEN BUTTON CHANGES
+
       if (autoSelect) {
         var firstValid = dropdown.querySelector('option:not([hidden]):not([disabled])');
         if (firstValid) dropdown.value = firstValid.value;
@@ -772,7 +770,6 @@ input.btn {
       shopifySelect.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
-    // BUTTON CLICK → auto-select allowed
     document.body.addEventListener('click', function (e) {
       var btn = e.target.closest('.custom-variant-btn');
       if (!btn) return;
@@ -789,12 +786,12 @@ input.btn {
       updatePriceAndCart();
     });
 
-    // DROPDOWN CHANGE → NO auto-select
+
     dropdown.addEventListener('change', function () {
       updatePriceAndCart();
     });
 
-    // INIT
+
     updateDropdownAvailability(true);
     updatePriceAndCart();
   }
@@ -808,7 +805,6 @@ input.btn {
 </script>
 
 {% schema %}
-
 
 
 {
