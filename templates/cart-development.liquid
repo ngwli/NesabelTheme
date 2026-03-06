@@ -109,6 +109,7 @@
     z-index: 9999;
   }
 
+  /* main cart style */
   .cart-row a, .cart-original-price {
     font-size: 15px;
     font-weight: 600;
@@ -188,9 +189,9 @@ input.btn-secondary.update-cart {
   margin-right: auto;
 }
 
+/* cart style on mobile ver */
 @media screen and (max-width: 768px) {
-
-  .grid-item.two-thirds.large--three-quarters {
+.grid-item.two-thirds.large--three-quarters {
   margin-left: 0;      
   padding-left: 6px;
   padding-right: 10px;
@@ -342,7 +343,7 @@ background-color: #ffffff;
 border: 1px solid #e5e7eb;
 border-radius: 12px;
 cursor: pointer;
-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* custom timing for toogle */
 color: #374151;
 font-weight: 600;
 font-size: 12px;
@@ -398,11 +399,9 @@ label[for="cartSpecialInstructions"] {
   padding-left: 100px;
 }
 
-
-
+/* cart style on smaller screen device */
 @media screen and (max-width: 360px) {
-  
-  .cart strong {
+.cart strong {
   display: block;
   margin-top: 16px;
 }
@@ -469,6 +468,7 @@ label[for="cartSpecialInstructions"] {
   }
 }
 
+/* qty alignment for smaller screen device */
 @media screen and ( max-width: 401px) {
   .js--num {
   min-width: 105px !important; 
@@ -507,6 +507,7 @@ label[for="cartSpecialInstructions"] {
   }
 }
 
+/* REMOVE word instead of "X" on main cart desktop ver */
 @media screen and (min-width: 769px) {
   a.remove::after {
     content: "Remove";
@@ -514,13 +515,14 @@ label[for="cartSpecialInstructions"] {
     transition: font-style 0.15s ease;
   }
 
+  /* style when hovering */
   a.remove:hover::after,
   a.remove:focus-visible::after {
     font-style: italic;
   }
 
   .supports-fontface a.remove .icon {
-    display: none !important;
+    display: none !important; /* X icon removed */
   }
 
   .grid-item.one-sixth {
