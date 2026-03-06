@@ -109,12 +109,14 @@ transition: transform 0.2s ease;
   font-size: 14px;
 }
 
+/* variant btn column */
 .variant-grid-buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
 
+/* variant btn style */
 .custom-variant-btn {
   background: #fff;
   border: 1px solid #e2e2e2;
@@ -127,6 +129,7 @@ transition: transform 0.2s ease;
   border-radius: 5px;
 }
 
+/*  specific variant when clicked */
 .custom-variant-btn.active {
   background: #f4f4f4; 
   border: 2px solid #333;
@@ -147,7 +150,7 @@ transition: transform 0.2s ease;
 }
 
 .variant-box.sold-out {
-  opacity: 0.5;
+  opacity: 0.5; /* grey when sold out */
   pointer-events: none;
 }
 
@@ -158,6 +161,7 @@ transition: transform 0.2s ease;
   gap: 12px;               
 }
 
+/* product page add to cart btn style */
 .payment-buttons .btn--add-to-cart {
   width: 600px;            
   max-width: 250px;     
@@ -186,6 +190,7 @@ transition: transform 0.2s ease;
   opacity: 0.7;
 }
 
+/* qty wrapper style */
 .js-qty {
   display: flex;
   align-items: center;
@@ -258,9 +263,9 @@ transition: transform 0.2s ease;
   padding: 15px;
 }
 
+/* descsription wrapper */
 .parent {
     position: relative; 
-    height: 
 }
 
 .right-corner {
@@ -279,6 +284,7 @@ transition: transform 0.2s ease;
   height: 100%;
 }
 
+/* recommendation style on product page */
 .collection-product-title {
   margin-top: 5px;
   margin-bottom: 6px;
@@ -314,7 +320,7 @@ transition: transform 0.2s ease;
 .btn {
   height: 45px;        
   border-radius: 6px;      
-  background-color: #516DE0; 
+  background-color: #220F61; 
   color: #fff;     
   display: flex;
   align-items: center;
@@ -327,7 +333,7 @@ transition: transform 0.2s ease;
 }
 
 
-
+/* mobile ver */
 @media screen and (max-width: 749px) { 
 .addToCartForm--payment-button { 
   display: block; 
@@ -541,6 +547,8 @@ transition: transform 0.2s ease;
           {% form 'product', product, class: form_class, id: form_id, data-product-form: '' %}
             {{ form | payment_terms }}
 
+
+             {% comment %} for variant selector button  {% endcomment %}
           <br>
 <div class="product-variant-selection">
   {% unless product.has_only_default_variant %}
@@ -561,6 +569,7 @@ transition: transform 0.2s ease;
           </div>
         </div>
 
+        {% comment %} dropdown select for piece or per case {% endcomment %}
       {% else %}
         <div class="variant-wrapper">
           <strong>{{ option.name }}</strong>
@@ -585,6 +594,7 @@ transition: transform 0.2s ease;
     {% endfor %}
   </select>
 </div>
+
 
           <br>
              {% if section.settings.product_quantity_enable %}
@@ -703,6 +713,7 @@ transition: transform 0.2s ease;
   {% endunless %}
 </div>
 
+{% comment %} the list of the store has  {% endcomment %}
 <script type="application/json" class="variant-data"> {{ product.variants | json }} </script>
 
 <script>
@@ -717,11 +728,13 @@ transition: transform 0.2s ease;
 
     var variants = JSON.parse(dataEl.textContent);
 
+    {% comment %} when the user clicked the variant {% endcomment %}
     function getActiveButtonValue() {
       var btn = document.querySelector('.custom-variant-btn.active');
       return btn ? btn.dataset.value : null;
     }
 
+    {% comment %} if the size / per () is available it automatically shows the option {% endcomment %}
     function updateDropdownAvailability(autoSelect) {
       var activeValue = getActiveButtonValue();
       if (!activeValue) return;
@@ -750,7 +763,7 @@ transition: transform 0.2s ease;
         }
       });
 
-
+         {% comment %} if the size / per () is not available, it automatically hid them or disabled them {% endcomment %}
       if (autoSelect) {
         var firstValid = dropdown.querySelector('option:not([hidden]):not([disabled])');
         if (firstValid) dropdown.value = firstValid.value;
@@ -770,6 +783,7 @@ transition: transform 0.2s ease;
       var variant = findVariant();
       if (!variant) return;
 
+      {% comment %} updates the original price below the product title when the variant and size is click  {% endcomment %}
       priceEl.innerHTML =
         '<strong>₱' +
         (variant.price / 100).toLocaleString('en-US', {
@@ -784,6 +798,7 @@ transition: transform 0.2s ease;
     }
 
 
+    {% comment %} runs the program or updates when any variant and size is click {% endcomment %}
     document.body.addEventListener('click', function (e) {
       var btn = e.target.closest('.custom-variant-btn');
       if (!btn) return;
