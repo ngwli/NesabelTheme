@@ -28,7 +28,8 @@
       }
     },
     /* connected to branch--promo liquid section
-    para sa additional banner that serves as the ads or promo */
+    para sa additional banner that serves as the ads or promo
+    image with text */
     "branch-promo": {
           "type": "branch-promo",
            "settings": {
