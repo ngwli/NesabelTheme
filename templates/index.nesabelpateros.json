@@ -27,6 +27,19 @@
         "slider_home_rate": "5000"
       }
     },
+    /* connected to branch--promo liquid section
+    para sa additional banner that serves as the ads or promo */
+    "branch-promo": {
+          "type": "branch-promo",
+           "settings": {
+    "nesabelpateros_image": "https://cdn.shopify.com/s/files/1/0557/4862/4569/files/Starts_at_16.png?v=1765248570",
+    "nesabelpateros_label": "Promo Products",
+    "nesabelpateros_headline": "Goodworth ( Old Building ) – got you!",
+    "nesabelpateros_subtext": "Don't miss our exclusive deals.",
+    "nesabelpateros_btn1_text": "Shop Now",
+    "nesabelpateros_btn1_url": "/collections/all"
+        }
+       },
     "16427816433297c49e": {
       "type": "collection-rows",
       "settings": {
@@ -111,6 +124,7 @@
   },
   "order": [
     "16427816120f364d0c",
+    "branch-promo", /* for it to show in homepage, need to add it to order */
     "16427816433297c49e",
     "1642786243aeca3dcc",
     "164278560807452441",

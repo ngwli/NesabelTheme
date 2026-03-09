@@ -1,0 +1,374 @@
+{% comment %}
+ liquid code for image with text in homepage section
+ for ads or promotional banner if theres any
+ also can be serve as announcement too
+{% endcomment %}
+
+<style>
+  .bp-section {
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 50px;
+  }
+
+  .bp-section.bp-active {
+    display: flex;
+  }
+
+  .bp-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    min-height: 320px;
+    overflow: hidden;
+  }
+
+  .bp-image-col {
+    flex: 0 0 50%;
+    max-width: 50%;
+    overflow: hidden;
+  }
+
+  .bp-image-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .bp-text-col {
+    flex: 0 0 50%;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 56px;
+    background: #f9f6f2;
+    box-sizing: border-box;
+  }
+
+  .bp-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #c8972a;
+    margin-bottom: 16px;
+  }
+
+  .bp-headline {
+    font-size: clamp(22px, 2.8vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #01053c;
+    margin: 0 0 14px;
+  }
+
+  .bp-subtext {
+    font-size: clamp(14px, 1.4vw, 16px);
+    color: #555;
+    line-height: 1.7;
+    margin: 0 0 32px;
+  }
+
+  .bp-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .bp-btn-primary {
+    display: inline-block;
+    background: #01053c;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+
+  .bp-btn-primary:hover {
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .bp-btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: #01053c;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 3px;
+    border: 2px solid #01053c;
+    transition: all 0.2s ease;
+  }
+
+  .bp-btn-secondary:hover {
+    background: #01053c;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* mobile ver and small device ver for image with text */
+
+   @media (max-width: 768px) {
+    .bp-section.bp-active {
+      display: block;
+    }
+    .bp-inner {
+      flex-direction: column;
+      min-height: unset;
+    }
+    .bp-image-col {
+      flex: unset;
+      max-width: 100%;
+      width: 100%;
+      height: 200px;
+      min-height: unset;
+    }
+    .bp-image-col img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .bp-text-col {
+      flex: unset;
+      max-width: 100%;
+      width: 100%;
+      padding: 24px 20px;
+      box-sizing: border-box;
+    }
+    .bp-label {
+      font-size: 10px;
+      margin-bottom: 10px;
+    }
+    .bp-headline {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .bp-subtext {
+      font-size: 13px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .bp-buttons {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .bp-btn-primary,
+    .bp-btn-secondary {
+      width: 100%;
+      text-align: center;
+      padding: 14px 20px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+  }
+
+</style>
+
+{% comment %}
+ connected to json file which can be edited per json file 
+ ex: one specific store (nesabelpateros)
+{% endcomment %}
+
+{% assign branches = "nesabelbustos,nesabelbustoswholesale,nesabelpateros,nesabelpateroswholesale,nesabelsanrafael,nesabelsanrafaelwholesale,chronosmart,chronosmartwholesale" | split: "," %}
+
+{% for branch in branches %}
+  {% assign img_key     = branch | append: "_image" %}
+  {% assign label_key   = branch | append: "_label" %}
+  {% assign head_key    = branch | append: "_headline" %}
+  {% assign sub_key     = branch | append: "_subtext" %}
+  {% assign btn1_key    = branch | append: "_btn1_text" %}
+  {% assign btn1_url    = branch | append: "_btn1_url" %}
+  {% assign btn2_key    = branch | append: "_btn2_text" %}
+  {% assign btn2_url    = branch | append: "_btn2_url" %}
+
+  <div class="bp-section" data-branch="{{ branch }}">
+    <div class="bp-inner">
+
+      <div class="bp-image-col">
+        {% if section.settings[img_key] != blank %}
+          <img src="{{ section.settings[img_key] }}"
+               alt="{{ section.settings[head_key] }}">
+        {% else %}
+          <div style="width:100%;height:100%;min-height:320px;background:#e0dbd4;display:flex;align-items:center;justify-content:center;">
+            <span style="color:#999;font-size:13px;">No image set</span>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="bp-text-col">
+        {% if section.settings[label_key] != blank %}
+          <span class="bp-label">{{ section.settings[label_key] }}</span>
+        {% endif %}
+
+        {% if section.settings[head_key] != blank %}
+          <h2 class="bp-headline">{{ section.settings[head_key] }}</h2>
+        {% endif %}
+
+        {% if section.settings[sub_key] != blank %}
+          <p class="bp-subtext">{{ section.settings[sub_key] }}</p>
+        {% endif %}
+
+        <div class="bp-buttons">
+          {% if section.settings[btn1_key] != blank %}
+            <a class="bp-btn-primary" href="{{ section.settings[btn1_url] | default: '#' }}">
+              {{ section.settings[btn1_key] }}
+            </a>
+          {% endif %}
+          {% if section.settings[btn2_key] != blank %}
+            <a class="bp-btn-secondary" href="{{ section.settings[btn2_url] | default: '#' }}">
+              {{ section.settings[btn2_key] }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endfor %}
+
+{% comment %}
+ pag ni-refresh ang page hindi mawawala at hindi ma-oovershadow ng ibang section so basically not hidden hjajaahahha lol 
+{% endcomment %}
+<script>
+(function () {
+  var COOKIE_NAME = 'nesabel_branch';
+  var BRANCHES = [
+    'nesabelbustoswholesale','nesabelbustos',
+    'nesabelpateroswholesale','nesabelpateros',
+    'nesabelsanrafaelwholesale','nesabelsanrafael',
+    'chronosmartwholesale','chronosmart'
+  ];
+
+  function setCookie(name, value, days) {
+    var expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+  }
+
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+
+  // 1. Check ?view= param first
+  var view = (new URLSearchParams(window.location.search).get('view') || '').toLowerCase();
+
+  // 2. If valid branch in URL, save it to cookie
+  if (view && BRANCHES.indexOf(view) !== -1) {
+    setCookie(COOKIE_NAME, view, 30);
+  } else {
+    // 3. No param — fall back to cookie
+    view = getCookie(COOKIE_NAME) || '';
+  }
+
+  if (!view) return;
+
+  var match = document.querySelector('.bp-section[data-branch="' + view + '"]');
+  if (match) match.classList.add('bp-active');
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Branch Promo",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "🏬 Nesabel Bustos" },
+    { "type": "html", "id": "nesabelbustos_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "nesabelbustos_label", "label": "Label (e.g. Sale, New)" },
+    { "type": "text", "id": "nesabelbustos_headline", "label": "Headline" },
+    { "type": "textarea", "id": "nesabelbustos_subtext", "label": "Subtext" },
+    { "type": "text", "id": "nesabelbustos_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "nesabelbustos_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "nesabelbustos_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "nesabelbustos_btn2_url", "label": "Button 2 Link" },
+
+    { "type": "header", "content": "🏬 Nesabel Bustos Wholesale" },
+    { "type": "html", "id": "nesabelbustoswholesale_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "nesabelbustoswholesale_label", "label": "Label" },
+    { "type": "text", "id": "nesabelbustoswholesale_headline", "label": "Headline" },
+    { "type": "textarea", "id": "nesabelbustoswholesale_subtext", "label": "Subtext" },
+    { "type": "text", "id": "nesabelbustoswholesale_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "nesabelbustoswholesale_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "nesabelbustoswholesale_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "nesabelbustoswholesale_btn2_url", "label": "Button 2 Link" },
+
+    { "type": "header", "content": "🏬 Nesabel Pateros" },
+    { "type": "html", "id": "nesabelpateros_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "nesabelpateros_label", "label": "Label" },
+    { "type": "text", "id": "nesabelpateros_headline", "label": "Headline" },
+    { "type": "textarea", "id": "nesabelpateros_subtext", "label": "Subtext" },
+    { "type": "text", "id": "nesabelpateros_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "nesabelpateros_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "nesabelpateros_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "nesabelpateros_btn2_url", "label": "Button 2 Link" },
+
+    { "type": "header", "content": "🏬 Nesabel Pateros Wholesale" },
+    { "type": "html", "id": "nesabelpateroswholesale_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "nesabelpateroswholesale_label", "label": "Label" },
+    { "type": "text", "id": "nesabelpateroswholesale_headline", "label": "Headline" },
+    { "type": "textarea", "id": "nesabelpateroswholesale_subtext", "label": "Subtext" },
+    { "type": "text", "id": "nesabelpateroswholesale_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "nesabelpateroswholesale_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "nesabelpateroswholesale_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "nesabelpateroswholesale_btn2_url", "label": "Button 2 Link" },
+
+    { "type": "header", "content": "🏬 Nesabel San Rafael" },
+    { "type": "html", "id": "nesabelsanrafael_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "nesabelsanrafael_label", "label": "Label" },
+    { "type": "text", "id": "nesabelsanrafael_headline", "label": "Headline" },
+    { "type": "textarea", "id": "nesabelsanrafael_subtext", "label": "Subtext" },
+    { "type": "text", "id": "nesabelsanrafael_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "nesabelsanrafael_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "nesabelsanrafael_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "nesabelsanrafael_btn2_url", "label": "Button 2 Link" },
+
+    { "type": "header", "content": "🏬 Nesabel San Rafael Wholesale" },
+    { "type": "html", "id": "nesabelsanrafaelwholesale_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "nesabelsanrafaelwholesale_label", "label": "Label" },
+    { "type": "text", "id": "nesabelsanrafaelwholesale_headline", "label": "Headline" },
+    { "type": "textarea", "id": "nesabelsanrafaelwholesale_subtext", "label": "Subtext" },
+    { "type": "text", "id": "nesabelsanrafaelwholesale_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "nesabelsanrafaelwholesale_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "nesabelsanrafaelwholesale_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "nesabelsanrafaelwholesale_btn2_url", "label": "Button 2 Link" },
+
+    { "type": "header", "content": "⌚ Chronosmart" },
+    { "type": "html", "id": "chronosmart_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "chronosmart_label", "label": "Label" },
+    { "type": "text", "id": "chronosmart_headline", "label": "Headline" },
+    { "type": "textarea", "id": "chronosmart_subtext", "label": "Subtext" },
+    { "type": "text", "id": "chronosmart_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "chronosmart_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "chronosmart_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "chronosmart_btn2_url", "label": "Button 2 Link" },
+
+    { "type": "header", "content": "⌚ Chronosmart Wholesale" },
+    { "type": "html", "id": "chronosmartwholesale_image", "label": "Image URL (paste CDN link)" },
+    { "type": "text", "id": "chronosmartwholesale_label", "label": "Label" },
+    { "type": "text", "id": "chronosmartwholesale_headline", "label": "Headline" },
+    { "type": "textarea", "id": "chronosmartwholesale_subtext", "label": "Subtext" },
+    { "type": "text", "id": "chronosmartwholesale_btn1_text", "label": "Button 1 Text" },
+    { "type": "url", "id": "chronosmartwholesale_btn1_url", "label": "Button 1 Link" },
+    { "type": "text", "id": "chronosmartwholesale_btn2_text", "label": "Button 2 Text (optional)" },
+    { "type": "url", "id": "chronosmartwholesale_btn2_url", "label": "Button 2 Link" }
+  ],
+  "presets": [
+    { "name": "Branch Promo" }
+  ]
+}
+{% endschema %}
