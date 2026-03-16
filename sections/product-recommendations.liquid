@@ -41,7 +41,7 @@
           <p class="product-item--price" style="text-align: center;">
             <span class="h1 medium--left"  style="margin-bottom: 0">{{ product.price | money}}</span></p>
             {% if product.vendor == cart.attributes.branch and product.available %}
-<input type="button" class="btn" value="Go to item" onclick=""/>
+<input type="button" class="btn" value="View item" onclick=""/>
   {% endif %}
         </a>
         {% comment %} Custom code by JR Castor of Nesabel Corp. Oct, 2021. Adds an ajax add-to-cart button to the page. {% endcomment %}
