@@ -90,8 +90,8 @@
     {% if customer %}
   {%- if customer.orders.size > 0 -%}
         	{% for order in customer.orders limit:1 %}
-  <li class="site-nav--has-dropdown" aria-haspopup="true"><span style="display:block;padding:15px;color:white;">Order Status
-  <span class="icon icon-arrow-down" aria-hidden="true" style="color:white;"></span></span>
+  <li class="site-nav--has-dropdown" aria-haspopup="true"><span style="display:block;padding:15px;color:#333333;">Order Status
+  <span class="icon icon-arrow-down" aria-hidden="true" style="color:#333333;"></span></span>
   <ul id="MenuParent-6" class="site-nav--dropdown site-nav--has-grandchildren" data-meganav-dropdown="">
   <li><a href="{{ order.order_status_url }}">Most Recent Order</a></li>
   <li><a href="{{ routes.account_url }}">Previous Orders</a></li> 
