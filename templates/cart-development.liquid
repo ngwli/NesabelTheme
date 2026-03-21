@@ -109,7 +109,6 @@
     z-index: 9999;
   }
 
-  /* main cart style */
   .cart-row a, .cart-original-price {
     font-size: 15px;
     font-weight: 600;
@@ -189,9 +188,14 @@ input.btn-secondary.update-cart {
   margin-right: auto;
 }
 
-/* cart style on mobile ver */
+/* mobile style */
 @media screen and (max-width: 768px) {
-.grid-item.two-thirds.large--three-quarters {
+   strong {
+    display: block !important;
+    margin-top: 16px !important;
+  }
+
+  .grid-item.two-thirds.large--three-quarters {
   margin-left: 0;      
   padding-left: 6px;
   padding-right: 10px;
@@ -205,7 +209,7 @@ input.btn-secondary.update-cart {
   }
 
   .cart-row {
-     display: grid;
+    display: grid;
     grid-template-columns: 30fr;
     gap: 30px;
     align-items: center;
@@ -248,42 +252,34 @@ input.btn-secondary.update-cart {
   }
 
   .subtotal-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    border: 1px solid #eee;
-    border-radius: 6px;
-    background:rgb(239, 239, 239);
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    overflow: hidden;
-    margin-top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px !important;
+    box-sizing: border-box !important;
+    margin: 0 0 12px 0 !important;
   }
 
-  .js--num {
+ .cart-pricing .js--num {
   background: #f5f5f5;
-  border-radius: 999px;
+  border-radius: 5px;
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  min-width: 105px !important; 
+  min-width: 115px !important; 
   padding-left: 0 !important;
   margin-left: 110px !important;
   padding-right: 0 !important;
   }
 
-  .js--qty-adjuster {
+ .cart-pricing .js--qty-adjuster {
   padding-left: 0 !important;
   padding-right: 0 !important;
-  margin-left: 110px !important;
+  margin-left: 119px !important;
 }
 
-.js--qty-adjuster.js--add {
-  left: 82px !important; 
+.cart-pricing .js--qty-adjuster.js--add {
+  left: 74px !important; 
 }
 
   .cart-header .cart-quantity {
@@ -299,15 +295,16 @@ input.btn-secondary.update-cart {
   font-size: 20px;
  }
 
- .cart-original-price {
+ .cart-pricing .cart-original-price {
     margin-left: 95px;
     font-size: 16px;
    }
 }
 
-.js--num {
+/* base style */
+.cart-pricing .js--num {
   background: #f5f5f5;
-  border-radius: 999px;
+  border-radius: 5px;
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 600;
@@ -315,7 +312,7 @@ input.btn-secondary.update-cart {
   min-width: 56px;
 }
 
-.js-qty {
+.cart-pricing .js-qty {
   display: flex;
   align-items: center;
   width: 100px;
@@ -343,7 +340,7 @@ background-color: #ffffff;
 border: 1px solid #e5e7eb;
 border-radius: 12px;
 cursor: pointer;
-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* custom timing for toogle */
+transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 color: #374151;
 font-weight: 600;
 font-size: 12px;
@@ -374,6 +371,7 @@ label[for="cartSpecialInstructions"] {
   width: 188px !important;
 }
 
+/* cart "product" "quantity" "total" */
 .cart-header {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -399,29 +397,30 @@ label[for="cartSpecialInstructions"] {
   padding-left: 100px;
 }
 
-/* cart style on smaller screen device */
-@media screen and (max-width: 360px) {
-.cart strong {
+/* small screen */
+@media screen and (min-width: 360px) and (max-width: 360px) {
+  
+  .cart strong {
   display: block;
-  margin-top: 16px;
-}
+  margin-top: 20px;
+ }
 
-  .js--num {
+ .cart-pricing .js--num {
   min-width: 100px !important; 
   padding-left: 0 !important;
   margin-left: 100px !important;
   padding-right: 0 !important;
   }
 
-  .js--qty-adjuster {
+ .cart-pricing .js--qty-adjuster {
   padding-left: 0 !important;
   padding-right: 0 !important;
-  margin-left: 100px !important;
-}
+  margin-left: 109px !important;
+ }
 
-.js--qty-adjuster.js--add {
-  left: 82px !important;
-}
+ .cart-pricing .js--qty-adjuster.js--add {
+  left: 74px !important;
+ }
   .accordion-toggle {
     font-size: 10.5px;
     padding: 10px 12px;
@@ -466,48 +465,150 @@ label[for="cartSpecialInstructions"] {
     gap: 10px;
     align-items: start;
   }
+
+  .cart__policies {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+ .accordion-toggle {
+ width: 250px;
+ }
+
+ .input-full {
+  width: 250px;
+  max-width: 250px;
+  padding-left: 5px;
+  }
 }
 
-/* qty alignment for smaller screen device */
+/* mobile screen */
 @media screen and ( max-width: 401px) {
-  .js--num {
+   .cart strong {
+  display: block;
+  margin-top: 20px;
+}
+
+ .cart-pricing .js--num {
   min-width: 105px !important; 
   padding-left: 0 !important;
   margin-left: 100px !important;
   padding-right: 0 !important;
   }
 
-  .js--qty-adjuster {
+.cart-pricing .js--qty-adjuster {
   padding-left: 0 !important;
   padding-right: 0 !important;
-  margin-left: 102px !important;
+  margin-left: 105px !important;
 }
 }
 
+/* mobile screen */
 @media screen and (min-width: 481px) and (max-width: 600px) {
-  .ajaxifyCart--qty,
+ .cart-pricing .ajaxifyCart--qty,
   .js--qty {
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .cart-original-price {
+  .cart-procing .cart-original-price {
     margin-left: auto !important;
     font-size: 15px;
   }
 
-  .js--num {
+  .cart-pricing .js--num {
     min-width: 60px !important;
     margin-left: 0 !important;
   }
 
-  .js--qty-adjuster {
+  .cart-pricing .js--qty-adjuster {
     margin-left: 0 !important;
   }
 }
 
-/* REMOVE word instead of "X" on main cart desktop ver */
+/* smaller screen */
+@media screen and (min-width: 540px) and (max-width: 540px) {
+  .cart-pricing .js--qty-adjuster {
+    margin-left: 5px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .cart-pricing .js--qty-adjuster.js--add {
+    left: 70px !important;
+  }
+
+  .cart-original-price {
+   margin-left: 80px !important;
+  }
+}
+
+/* smaller screen */
+@media screen and (min-width: 344px) and (max-width: 344px) {
+  .cart-pricing .js--qty-adjuster {
+    margin-left: 105px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .cart-pricing .js--qty-adjuster.js--add {
+    left: 75px !important;
+  }
+
+  .cart-pricing .js--num {
+  min-width: 103px !important; 
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  }
+
+  .cart-original-price {
+  font-size: 14px !important;
+  }
+
+  .subtotal-wrapper {
+    font-size: 12px;
+  }
+
+  .cart-subtotal--price {
+  font-size: 20px;
+  }
+
+   .cart__policies {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .accordion-toggle {
+  width: 250px;
+  }
+
+  .input-full {
+  width: 250px;
+  max-width: 250px;
+  padding-left: 5px;
+  }
+}
+
+/* qty style for smaller screen */
+@media screen and (min-width: 412px) and (max-width: 412px) {
+  .cart-pricing .js--qty-adjuster {
+    margin-left: 118px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .cart-pricing .js--qty-adjuster.js--add {
+    left: 80px !important;
+  }
+
+  .cart-pricing .js--num {
+  min-width: 115px !important; 
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  }
+
+}
+
+/* "X" changed to remove */
 @media screen and (min-width: 769px) {
   a.remove::after {
     content: "Remove";
@@ -515,14 +616,13 @@ label[for="cartSpecialInstructions"] {
     transition: font-style 0.15s ease;
   }
 
-  /* style when hovering */
   a.remove:hover::after,
   a.remove:focus-visible::after {
     font-style: italic;
   }
 
   .supports-fontface a.remove .icon {
-    display: none !important; /* X icon removed */
+    display: none !important;
   }
 
   .grid-item.one-sixth {
@@ -622,6 +722,7 @@ label[for="cartSpecialInstructions"] {
       </button>
     </div>
 
+    {% comment %} style for desktop {%  endcomment %}
   <div class="cart-header">
   <div class="cart-header-item cart-product">Product</div>
   <div class="cart-header-item cart-quantity">Quantity</div>
@@ -805,7 +906,7 @@ label[for="cartSpecialInstructions"] {
     {{ 'cart.general.subtotal' | t }}
             <span class="h1 cart-subtotal--price">
               {% include 'price' with cart.total_price %}
-              <p style="font-size: 12px; margin-top: 3px; margin-bottom: 3px; font-weight: 500;"> Delivery fee calculated after check out </p>
+              <p style="font-size: 10px; margin-top: 3px; margin-bottom: 3px; font-weight: 500;"> Delivery fee calculated after check out </p>
           </div>
 
           <p class="cart__policies">

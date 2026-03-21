@@ -1,0 +1,76 @@
+<style>
+  input#first_name, input#last_name, 
+input#email, input#mobile_number, input#create_password, input#nesabel_card {
+  background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(203, 203, 203, 0.2);
+    max-width: 100%;
+    width: 100%;
+}
+
+   input.btn {
+  background-color: #010854;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+   }
+
+</style>
+
+
+<div class="grid">
+
+  <div class="grid-item large--one-third push--large--one-third text-center">
+
+    <h1>{{ 'customer.register.title' | t }}</h1>
+
+    {% form 'create_customer' %}
+
+      {% include 'form-errors-custom' %}
+
+      <label for="first_name" class="hidden-label">{{ 'customer.register.first_name' | t }}</label>
+      <label style="Text-align: left; color: #333333; font-weight: 600;"> First Name
+      <input type="text" value="" name="customer[first_name]" id="first_name" placeholder="Enter your {{ 'customer.register.first_name' | t }}" style="color: #333333;" {% if form.errors contains "first_name" %} class="error"{% endif %} autofocus>
+      </label>
+
+      <label style="text-align: left; color: #333333; font-weight: 600;"> Last Name
+      <label for="last_name" class="hidden-label">{{ 'customer.register.last_name' | t }}</label>
+      <input type="text" value="" name="customer[last_name]" id="last_name" placeholder="Enter your {{ 'customer.register.last_name' | t }}" style="color: #333333;" {% if form.errors contains "last_name" %} class="error"{% endif %}>
+      </label>
+
+      <label style="text-align: left; color: #333333; font-weight: 600;"> Email
+      <label for="email" class="hidden-label">{{ 'customer.register.email' | t }}</label>
+      <input type="email" value="" name="customer[email]" id="email" placeholder="{{ 'customer.register.email' | t }}" style="color: #333333;" {% if form.errors contains "email" %} class="error"{% endif %} autocorrect="off" autocapitalize="off">
+      </label>
+
+      <label style="text-align: left; color: #333333; font-weight: 600;"> Password 
+      <label for="password" class="hidden-label">{{ 'customer.register.password' | t }}</label>
+      <input type="password" value="" name="customer[password]" id="create_password" placeholder="{{ 'customer.register.password' | t }}" style="color: #333333;" {% if form.errors contains "password" %} class="error"{% endif %}>
+      </label>
+
+      <label style="text-align: left; color: #333333; font-weight: 600;"> Mobile Number
+	  <label for="mobile_number" class="hidden-label">Mobile Number</label>
+	  <input type="text" value="" name="customer[note][mobile_number]" id="mobile_number" placeholder="09XXXXXXXXX" style="color: #333333;" {% if form.errors contains "mobile_number" %} class="error"{% endif %}>
+    </label>
+
+      <label style="text-align: left; color: #333333; font-weight: 600;"> Nesabel Card
+   	  <label for="nesabel_card" class="hidden-label">Nesabel Customer Card No.</label>
+	  <input type="text" value="" name="customer[note][nesabel_customer_card_no.]" id="nesabel_card" placeholder="Nesabel Customer Card No." style="color: #333333;" {% if form.errors contains "nesabel_card" %} class="error"{% endif %}>
+      </label>
+
+      <p>        
+      <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn">
+      </p>
+      {{ 'customer.register.or' | t }} <a href="{{ shop.url }}">{{ 'customer.register.cancel' | t }}</a>
+
+    {% endform %}
+
+  </div>
+
+</div>

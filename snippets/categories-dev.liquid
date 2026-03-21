@@ -1,0 +1,33 @@
+<hr>
+<p class="h1"> Shop By Category </p>
+<div class="cat-content">
+  <div class="cat-wrapper">
+{%- assign categories = 'dairy-eggs,cooking-essentials,beverages,snacks,canned-goods,rice-grains-pasta-noodles,frozen-goods,household,office-and-school,health-and-beauty,baby,general-merchandise,liquor-wine-and-cigarettes,pet-care' | split:"," -%}
+{%- for category in categories -%}
+{%- assign catimg = category | replace: "-","_" | append: ".png" -%}
+  <a class="cat-item" href="https://nesabel.com/collections/{{category}}/{{cart.attributes.branch | replace: ' ', '-'}}">
+    <div class="cat-box" id="{{category | replace: ' ', '-'}}">
+  <img src="{{ catimg | file_img_url: '300x' }}">
+  <span class="cat-title">
+    {%- case category -%}
+  {%- when 'dairy-eggs' -%}Dairy & Eggs
+  {%- when 'cooking-essentials' -%}Cooking Essentials
+  {%- when 'beverages' -%}Beverages
+  {%- when 'snacks' -%}Snacks
+  {%- when 'canned-goods' -%}Canned Goods
+  {%- when 'rice-grains-pasta-noodles' -%}Rice, Grains, Pasta & Noodles
+  {%- when 'frozen-goods' -%}Frozen Goods
+  {%- when 'household' -%}Household
+  {%- when 'office-and-school' -%}Office & School
+  {%- when 'health-and-beauty' -%}Health & Beauty
+  {%- when 'baby' -%}Baby
+  {%- when 'general-merchandise' -%}General Merchandise
+  {%- when 'liquor-wine-and-cigarettes' -%}Liquor, Wine & Cigarettes
+  {%- when 'pet-care' -%}Pet Care
+{%- endcase -%}
+  </span>
+  </div>
+</a>
+{%- endfor -%}
+  </div>
+</div>
