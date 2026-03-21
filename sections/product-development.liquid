@@ -49,6 +49,15 @@ transition: transform 0.2s ease;
   transform: scale(1.05);
 }
 
+@media (min-width: 768px) and (max-width: 820px) {
+  .product-photo-thumbs {
+  gap: 2px;
+  grid-template-columns: repeat(6, 1fr);
+  display: grid;
+  }
+}
+
+
 @media screen and (max-width: 768px) {
 .product-photo-thumbs {
   display: grid;
@@ -78,6 +87,36 @@ transition: transform 0.2s ease;
 }
 }
 
+@media (max-width: 480px) {
+  .product-photo-thumbs {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    padding-left: 25px;
+    padding-right: 15px;
+  }
+}
+
+/* Large phones */
+@media (min-width: 481px) and (max-width: 767px) {
+  .product-photo-thumbs {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* large screens */
+@media (min-width: 768px) and (max-width: 820px) {
+ .product-photo-thumbs {
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 4px;
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+
 /* .product-variants, .product-variants option { 
  color: #000 !important; 
  opacity: 1 !important; 
@@ -92,6 +131,7 @@ transition: transform 0.2s ease;
   margin: 20px 0;
 }
 
+/* variant btn style */
 .variant-wrapper {
   margin-bottom: 15px;
 }
@@ -182,9 +222,11 @@ transition: transform 0.2s ease;
   opacity: 0.7;
 }
 
+/* qty style on product page */
+
 .js-qty {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   overflow: hidden;
   width: 650px;
   max-width: 120px;
@@ -201,9 +243,8 @@ transition: transform 0.2s ease;
     margin: 0;
     color: #333333;
     font-weight: 500;
-    font-size: 18px;
-    height: 100%;
-    padding: 0 10px;
+    font-size: 15px;
+    padding-top: 2px;
 }
 
 .js--qty-adjuster {
@@ -214,6 +255,7 @@ transition: transform 0.2s ease;
   font-size: 28px; 
   cursor: pointer;
   height: 100%;
+  padding-top: 20px;
 }
 
 .js--add {
@@ -239,10 +281,20 @@ transition: transform 0.2s ease;
 }
 
 .quantity-selector {
-    width: 70px;
+    width: 90px;
     align-items: center;
     font-size: 15px;
     } 
+
+.js-qty input[type=text],
+.js--add,
+.js--minus {
+  height: 100% !important;
+  box-sizing: border-box;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 
 
 .product-description.rte {
@@ -254,6 +306,7 @@ transition: transform 0.2s ease;
   padding: 15px;
 }
 
+/* view more */
 .parent {
     position: relative; 
     height: 
@@ -275,6 +328,7 @@ transition: transform 0.2s ease;
   height: 100%;
 }
 
+/* reco style on product page */
 .collection-product-title {
   margin-top: 5px;
   margin-bottom: 6px;
@@ -298,7 +352,7 @@ transition: transform 0.2s ease;
   text-align: left;
 }
 
-
+/* add to cart btn */
 input.btn {
   height: 45px;        
   border-radius: 6px;      
@@ -314,6 +368,11 @@ input.btn {
   margin-bottom: 16px;
 }
 
+@media (min-width: 768px) and (max-width: 820px) {
+ input.btn {
+  width: 100%;
+}
+}
 
 
 @media screen and (max-width: 749px) { 
@@ -345,8 +404,82 @@ input.btn {
  margin-bottom: 10px; 
 } 
 } 
-</style>
 
+@media (max-width: 768px) {
+  .product-form__quantity,
+  .product-form__item,
+  .js-qty,
+  .quantity {
+    width: 100% !important;
+    height: 52px !important;
+    max-width: 100% !important;
+    display: flex !important;
+    align-items: stretch !important;
+  }
+
+  .js-qty__adjust {
+    width: 52px !important;
+    height: 52px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  input#quantity,
+  .js-qty__num {
+    height: 52px !important;
+    flex: 1 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .payment-buttons .btn--add-to-cart {
+  width: 380px;            
+  max-width: 380px;    
+}
+}
+
+@media (max-width: 480px) {
+  .payment-buttons .btn--add-to-cart {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Large phones */
+@media (min-width: 481px) and (max-width: 767px) {
+  .payment-buttons .btn--add-to-cart {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* large screens */
+@media (min-width: 768px) and (max-width: 820px) {
+  .payment-buttons .btn--add-to-cart {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* large screen */
+@media (min-width: 821px) and (max-width: 1024px) {
+  .payment-buttons .btn--add-to-cart {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* large screen */
+@media (min-width: 1025px) and (max-width: 1180px) {
+  .payment-buttons .btn--add-to-cart {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+</style>
 
 <div
   id="ProductSection"
@@ -447,11 +580,28 @@ input.btn {
           {% if product.images.size > 1 %}
             <ul class="product-photo-thumbs grid-uniform" id="productThumbs-{{ section.id }}">
               {% for image in product.images %}
+
+                {% comment %} photo thumb {% endcomment %}
+                {% assign matched_variant = nil %}
+      {% for variant in product.variants %}
+        {% if variant.featured_image and variant.featured_image.id == image.id %}
+          {% assign matched_variant = variant %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} matched variant if right photo thumb is click {% endcomment %}
                 <li class="grid-item medium-down--one-quarter large--one-quarter">
                   <a
                     href="{{ image.src | img_url: '1024x1024', scale: 2 }}"
                     class="product-photo-thumb product-photo-thumb-{{ section.id }}"
                     data-image-id="{{ image.id }}"
+            
+                    {% if matched_variant %}
+            data-variant-id="{{ matched_variant.id }}"
+            data-option1="{{ matched_variant.option1 | escape }}"
+            data-option2="{{ matched_variant.option2 | escape }}"
+          {% endif %}
                   >
                     <div class="thumbnail-image-box">
                       <img src="{{ image.src | img_url: 'compact' }}" alt="{{ image.alt | escape }}">
@@ -530,6 +680,7 @@ input.btn {
           {% form 'product', product, class: form_class, id: form_id, data-product-form: '' %}
             {{ form | payment_terms }}
 
+            {% comment %} variant btn style on product removing the select dropdown {% endcomment %}
           <br>
 <div class="product-variant-selection">
   {% unless product.has_only_default_variant %}
@@ -566,6 +717,7 @@ input.btn {
     {% endfor %}
   {% endunless %}
 
+  {% comment %} select dropdown for per (piece) and (case) {% endcomment %}
   <select name="id" id="productSelect-{{ section.id }}" style="display:none !important;">
     {% for variant in product.variants %}
       <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}>
@@ -645,6 +797,7 @@ input.btn {
         {{ product.description }}
       </div>
 
+      {% comment %} view more on product page {% endcomment %}
       <div class="parent">
     <a href="/collections/all" class="right-corner">View More</a>
 </div>
@@ -692,6 +845,7 @@ input.btn {
   {% endunless %}
 </div>
 
+{% comment %} gives the list of the store have {% endcomment %}
 <script type="application/json" class="variant-data"> {{ product.variants | json }} </script>
 
 <script>
@@ -706,11 +860,13 @@ input.btn {
 
     var variants = JSON.parse(dataEl.textContent);
 
+    {% comment %} is when the product or item is click by the user {% endcomment %}
     function getActiveButtonValue() {
       var btn = document.querySelector('.custom-variant-btn.active');
       return btn ? btn.dataset.value : null;
     }
-
+    
+    {% comment %} controls the dropdown, it automatically pick the first option or the one available in dropdown menu {% endcomment %}
     function updateDropdownAvailability(autoSelect) {
       var activeValue = getActiveButtonValue();
       if (!activeValue) return;
@@ -745,7 +901,8 @@ input.btn {
         if (firstValid) dropdown.value = firstValid.value;
       }
     }
-
+    
+    {% comment %} finds the exact product that clicked by the user {% endcomment %}
     function findVariant() {
       var option1 = getActiveButtonValue();
       var option2 = dropdown.value;
@@ -754,7 +911,8 @@ input.btn {
         return v.option1 === option1 && v.option2 === option2;
       });
     }
-
+    
+    {% comment %} updates the output and display the correct price  {% endcomment %}
     function updatePriceAndCart() {
       var variant = findVariant();
       if (!variant) return;
@@ -796,6 +954,35 @@ input.btn {
 
     updateDropdownAvailability(true);
     updatePriceAndCart();
+
+
+    // Thumb update buttons when clicked
+document.querySelectorAll('.product-photo-thumb').forEach(function(thumb) {
+  thumb.addEventListener('click', function() {
+    var option1 = thumb.dataset.option1;
+    var option2 = thumb.dataset.option2;
+
+    if (!option1) return; // no variant linked sa image
+
+    // Activate matching variant button
+    var matchingBtn = document.querySelector(
+      '.custom-variant-btn[data-value="' + option1 + '"]'
+    );
+    if (matchingBtn) {
+      document.querySelectorAll('.custom-variant-btn')
+        .forEach(function(b) { b.classList.remove('active'); });
+      matchingBtn.classList.add('active');
+    }
+
+    // Update dropdown for option2
+    if (option2 && dropdown) {
+      dropdown.value = option2;
+    }
+
+    updateDropdownAvailability(false);
+    updatePriceAndCart();
+  });
+});
   }
 
   if (document.readyState === 'loading') {
