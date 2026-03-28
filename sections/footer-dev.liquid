@@ -49,16 +49,26 @@
     {% when 'Nesabel Pateros Wholesale' %}
     <li><a href="https://www.facebook.com/nesabelpaterosondemand/" target="_blank">💬 Message us on Messenger</a></li>
      {% endcase %}
+     
         </ul>
 
         {% when 'text' %}
 
             {% if block.settings.richtext != blank %}
       {% assign branch = cart.attributes.branch %}
-      	<p>E-mail: yourgroceryneeds@gmail.com</p>
-      	<p></p>
       {% case branch %}
       {% when 'Nesabel Pateros' %}
+        <p><strong>Email</strong></p>
+        <p>nesabeloperator@gmail.com</p>
+      	<p><strong>Wholesale</strong></p>
+      	<p>Mobile No. 0917-187-7849</p>
+      	<p><strong>Retail</strong></p>
+      	<p>Mobile No. 0917-186-1502</p>
+      	<p><strong>Drugstore and Bigasan</strong></p>
+      	<p>Mobile No. 0917-186-1502</p>
+      {% when 'Nesabel Pateros Wholesale' %}
+        <p><strong>Email</strong></p>
+        <p>nesabeloperator@gmail.com</p>
       	<p><strong>Wholesale</strong></p>
       	<p>Mobile No. 0917-187-7849</p>
       	<p><strong>Retail</strong></p>
