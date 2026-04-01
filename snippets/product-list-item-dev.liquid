@@ -1,0 +1,83 @@
+{% unless image_size %}
+  {%- assign image_size = '600x600' -%}
+{% endunless %}
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+  {% assign sold_out = false %}
+{% endif %}
+
+<div class="product-list-row{% if sold_out %} sold-out{% endif %}{% if on_sale %} on-sale{% endif %}">
+   
+  <a href="{{ product.url }}" class="pli-link-overlay" aria-label="{{ product.title }}"></a>
+  
+  {%- comment %} for image in collection list view {%- endcomment %}
+  <div class="pli-image">
+    {% if sold_out %}
+      <div class="badge badge--sold-out"><span class="badge-label">{{ 'products.product.sold_out' | t }}</span></div>
+    {% endif %}
+    <a href="{{ product.url }}">
+      {% if product.featured_image %}
+        <img
+          class="lazyload js"
+          src="{{ product.featured_image | img_url: '80x80' }}"
+          data-src="{{ product.featured_image | img_url: '160x160' }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          width="80"
+          height="80">
+        <noscript>
+          <img src="{{ product.featured_image | img_url: '80x80' }}" alt="{{ product.featured_image.alt | escape }}">
+        </noscript>
+      {% else %}
+        {% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture %}
+        {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </a>
+  </div>
+
+  
+  {%- comment %} title and description (if theres any) {%- endcomment %}
+  <div class="pli-info">
+    <a href="{{ product.url }}">
+      <p class="pli-title">{{ product.title }}</p>
+    </a>
+    <p class="pli-desc">{{ product.content | strip_html | truncatewords: 20 }}</p>
+  </div>
+
+  {%- comment %} price in collection list view {%- endcomment %}
+  <div class="pli-price">
+    {% if on_sale %}
+      <span class="visually-hidden">{{ "products.general.sale_price" | t }}</span>
+    {% else %}
+      <span class="visually-hidden">{{ "products.general.regular_price" | t }}</span>
+    {% endif %}
+    <span class="pli-price__current">{% include 'price' with product.price %}</span>
+    {% if on_sale and section.settings.product_show_compare_at_price %}
+      <small><s>{% include 'price' with product.compare_at_price %}</s></small>
+    {% endif %}
+    {%- if product.selected_or_first_available_variant.available and product.selected_or_first_available_variant.unit_price_measurement -%}
+      {% include 'product-unit-price', variant: product.selected_or_first_available_variant %}
+    {%- endif -%}
+  </div>
+
+  {%- comment %} add to cart button and qty selector {%- endcomment %}
+  <div class="pli-atc">
+    {% unless sold_out %}
+      <form action="/cart/add" method="post">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <div class="pli-qty">
+          <input type="number" name="quantity" value="1" min="1" class="pli-qty__input">
+        </div>
+        <button type="submit" class="btn pli-atc__btn">{{ 'products.product.add_to_cart' | t }}</button>
+      </form>
+    {% else %}
+      <button class="btn btn--secondary" disabled>{{ 'products.product.sold_out' | t }}</button>
+    {% endunless %}
+  </div>
+
+</div>

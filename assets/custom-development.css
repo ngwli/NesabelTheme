@@ -1804,3 +1804,145 @@ input.btn.right {
     transition: background-color 0.3s;
 }
 
+
+
+.product-list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding-left: 15px;
+}
+
+.pli-link-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Image - fixed size, left + vertically centered */
+.pli-image {
+  flex: 0 0 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pli-image img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+}
+
+/* Title + desc */
+.pli-info {
+  flex: 1 1 auto;
+}
+
+.pli-title {
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #333333;
+}
+
+.pli-desc {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+/* Price */
+.pli-price {
+  flex: 0 0 80px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 20px;
+  color: #333333;
+  padding: 0 25px;
+}
+
+/* ATC */
+.pli-atc {
+  flex: 0 0 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  z-index: 2;
+}
+
+.pli-atc__btn {
+  width: 100%;
+  padding: 6px;
+  font-size: 12px;
+  background-color: #010854;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .pli-price {
+    font-size: 16px;
+    padding: 0 10px;
+    flex: 0 0 60px;
+  }
+
+  .pli-atc {
+    flex: 0 0 120px;
+  }
+
+  .pli-image {
+    flex: 0 0 60px;
+    padding-left: 8px;
+  }
+
+  .pli-image img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .product-list-row {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+    padding-left: 15px;
+  }
+
+  .pli-image {
+    flex: 0 0 60px;
+  }
+
+  .pli-image img {
+    width: 75px;
+    height: 75px;
+  }
+
+  .pli-info {
+    flex: 1 1 calc(100% - 80px);
+  }
+
+  .pli-price {
+    flex: 0 0 auto;
+    font-size: 20px;
+    padding: 0 8px;
+    margin-left: auto;
+  }
+
+  .pli-atc {
+    flex: 0 0 100%;
+    padding: 0 8px 8px;
+  }
+
+  .pli-atc__btn {
+    font-size: 14px;
+    padding: 8px;
+  } 
+
+  .pli-title {
+    font-size: 15px;
+  } 
+}
