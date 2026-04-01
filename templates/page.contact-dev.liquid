@@ -23,16 +23,17 @@
 
         <div id="contactFormWrapper">
           <label for="contactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>
+          <label style="Text-align: left; color: #333333; font-weight: 600;"> Name
           <input type="text" id="contactFormName" name="contact[{{ 'contact.form.name' | t }}]" placeholder="{{ 'contact.form.name' | t }}" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+          </label>
 
           <label for="contactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+          <label style="Text-align: left; color: #333333; font-weight: 600;"> Email
           <input type="email" id="contactFormEmail" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
-
-          <label for="contactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>
-          <input type="tel" id="contactFormPhone" name="contact[{{ 'contact.form.phone' | t }}]" placeholder="{{ 'contact.form.phone' | t }}" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+          </label>
           
-          {% comment %} select dropdown for contact us {%  endcomment  %}
-          <select name="contact[Concern]" id="options" required>
+          <label style="Text-align: left; color: #333333; font-weight: 600;"> Concern
+          <select name="contact[Concern]" id="options" style="color: #333333;" required>
            <option value="" disabled selected hidden>Choose Concern:</option>
            <option value="Customer Complaint">Customer Complaint</option>
            <option value="Inquiry">Inquiry</option>
@@ -40,6 +41,12 @@
            <option value="Price Inconsistency">Price Inconsistency</option>
            <option value="Others">Others</option>
           </select>
+        </label>
+
+          <label for="contactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>
+          <label style="Text-align: left; color: #333333; font-weight: 600;"> Mobile Number
+          <input type="tel" id="contactFormPhone" name="contact[{{ 'contact.form.phone' | t }}]" placeholder="{{ 'contact.form.phone' | t }}" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+          </label>
 
           <label for="contactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>
           <textarea rows="10" id="contactFormMessage" name="contact[{{ 'contact.form.message' | t }}]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
