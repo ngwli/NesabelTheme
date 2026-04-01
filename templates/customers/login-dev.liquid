@@ -19,9 +19,7 @@
     width: 100%;
     transition: background-color 0.3s;
    }
-
 </style>
-
 
 <div class="grid">
 
@@ -38,13 +36,17 @@
       {% include 'form-errors-custom' %}
 
       <label for="customer_email" class="hidden-label">{{ 'customer.login.email' | t }}</label>
+      <label style="Text-align: left; color: #333333; font-weight: 600;"> Email
       <input type="email" value="" name="customer[email]" id="customer_email" placeholder="{{ 'customer.login.email' | t }}" {% if form.errors contains "email" %} class="error"{% endif %} autocorrect="off" autocapitalize="off" autofocus>
+      </label>
 
       {% if form.password_needed %}
 
         <label for="customer_password" class="hidden-label">{{ 'customer.login.password' | t }}</label>
+        <label style="Text-align: left; color: #333333; font-weight: 600;"> Password
         <input type="password" value="" name="customer[password]" id="customer_password" placeholder="{{ 'customer.login.password' | t }}" {% if form.errors contains "password" %} class="error"{% endif %}>
-
+        </label>
+        
         <p>
           <a href="#" onclick="showRecoverPasswordForm();return false;">{{ 'customer.login.forgot_password' | t }}</a>
         </p>
